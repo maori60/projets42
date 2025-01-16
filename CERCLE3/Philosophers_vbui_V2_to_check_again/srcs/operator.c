@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:19 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/15 20:56:55 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/16 23:26:10 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,18 @@ void	ft_operation(t_philo *ph)
 	{
 		pthread_mutex_lock(&ph->left_f);
 		pthread_mutex_lock(&ph->pa->write_mutex);
-		ft_status("prend une fourchette\n", ph);
+		ft_status("prend une fourchettesse de la muerte\n", ph);
 		pthread_mutex_unlock(&ph->pa->write_mutex);
-		ft_usleep(ph->pa->die);
+
+		// Philosophe attend mais meurt avant de pouvoir prendre une deuxième fourchette
+		ft_usleep(ph->pa->die); // Attend jusqu'à son time_to_die
 		pthread_mutex_lock(&ph->pa->write_mutex);
 		ft_status("meurt\n", ph);
+		ft_god_supervisor(ph, 1); // Arrêt global
 		pthread_mutex_unlock(&ph->pa->write_mutex);
+
 		pthread_mutex_unlock(&ph->left_f);
-		return ;
+		return;
 	}
 	if (ph->id % 2 == 0)
 	{
