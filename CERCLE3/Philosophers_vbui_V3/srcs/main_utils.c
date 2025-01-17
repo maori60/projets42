@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:17 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/17 19:41:31 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/17 21:19:11 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ void	ft_usleep(long int time_in_ms)
 		if (sleep_time > margin)
 			usleep((sleep_time - margin) * 1000); // Conversion correcte en microsecondes
 		else
-			usleep(500); // Petits ajustements pour éviter des boucles trop rapides
+			usleep(10); // Petits ajustements pour éviter des boucles trop rapides
 	}
 }
