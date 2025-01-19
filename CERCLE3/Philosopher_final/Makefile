@@ -4,7 +4,7 @@ HEADER		=	./include/
 
 CC			=	gcc
 
-CFLAGS		=	-Werror -Wall -Wextra -g -I $(HEADER) -pthread -O0  #ajout à enlever
+CFLAGS		=	-Werror -Wall -Wextra -g -I $(HEADER) -pthread
 
 SRCS		=	srcs/lib.c \
 				srcs/operator.c \

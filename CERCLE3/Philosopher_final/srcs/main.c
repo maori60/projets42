@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:51:23 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/19 01:36:35 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/19 14:27:13 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	stop_operator(t_p *p)
 		pthread_mutex_destroy(&p->ph[i].left_f);
 		i++;
 	}
-	if (p->a.stop == 2)
-		printf("Each philosopher has eaten at least %d times\n", p->a.m_eat);
 	free(p->ph);
 }
 

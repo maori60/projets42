@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:00:00 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/19 00:34:56 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/19 14:16:13 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	check_death(t_phil *ph, long int time_since_last_meal)
 	if (time_since_last_meal >= (long)(ph->pa->die))
 	{
 		pthread_mutex_lock(&ph->pa->write_mutex);
-		ft_status("meurt\n", ph);
+		ft_status("died\n", ph);
 		pthread_mutex_unlock(&ph->pa->write_mutex);
 		pthread_mutex_lock(&ph->pa->dead);
 		ph->pa->stop = 1;
@@ -83,6 +83,7 @@ void	*thread(void *data)
 			{
 				pthread_mutex_lock(&phil->pa->dead);
 				phil->pa->stop = 2;
+				printf("Philo has eaten at least %d times\n", phil->pa->m_eat);
 				pthread_mutex_unlock(&phil->pa->dead);
 			}
 		}
