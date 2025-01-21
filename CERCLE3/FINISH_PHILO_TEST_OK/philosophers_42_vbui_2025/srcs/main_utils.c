@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:17 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/21 14:01:11 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/21 22:41:38 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,23 @@
 
 #include "../include/philosophers.h"
 
-int	ft_god_supervisor(t_phil *ph, int i)
+int	ft_god_supervisor(t_phil *p, int i)
 {
-	pthread_mutex_lock(&ph->pa->dead);
+
+	pthread_mutex_lock(&p->pa->dead);
 	if (i)
-		ph->pa->stop = i;
-	if (ph->pa->stop)
+		p->pa->stop = i;
+	if (p->pa->stop)
 	{
-		pthread_mutex_unlock(&ph->pa->dead);
+		pthread_mutex_unlock(&p->pa->dead);
 		return (1);
 	}
-	pthread_mutex_unlock(&ph->pa->dead);
+	pthread_mutex_unlock(&p->pa->dead);
 	return (0);
+
 }
+
+
 
 // long int	ft_timer(void)
 // {

@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:19 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/21 13:59:24 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/21 22:46:12 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 */
 
 #include "../include/philosophers.h"
-
 void	ft_status(char *str, t_phil *ph)
 {
 	long int	time;

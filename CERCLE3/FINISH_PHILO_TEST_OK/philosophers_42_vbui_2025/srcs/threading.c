@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:00:00 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/21 14:40:57 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/21 22:46:55 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,39 +18,6 @@
 */
 
 #include "../include/philosophers.h"
-
-
-/*
-void	*finishim(void *data)
-{
-	t_philo	*ph;
-	long int	current_time;
-
-	ph = (t_philo *)data;
-	if (!ph || !ph->pa) return NULL; // ajout
-	while (!ft_god_supervisor(ph, 0))
-	{
-		// ft_usleep(5); // Réduit les cycles de la boucle
-		ft_usleep(ph->pa->die + 1);
-		pthread_mutex_lock(&ph->pa->time_eat);
-		current_time = ft_timer();
-		if ((current_time - ph->ms_eat) >= (long)(ph->pa->die))
-		{
-			pthread_mutex_unlock(&ph->pa->time_eat);
-			pthread_mutex_lock(&ph->pa->write_mutex);
-			ft_status("meurt\n", ph);
-			pthread_mutex_unlock(&ph->pa->write_mutex);
-			pthread_mutex_lock(&ph->pa->dead);
-			ph->pa->stop = 1;
-			pthread_mutex_unlock(&ph->pa->dead);
-			return (NULL);
-		}
-		pthread_mutex_unlock(&ph->pa->time_eat);
-	}
-	return (NULL);
-}
-
-*/
 
 
 void *finishim(void *data)
@@ -90,33 +57,6 @@ void *finishim(void *data)
 
     return (NULL);
 }
-
-
-// void	*finishim(void *data)
-// {
-// 	t_philo	*ph;
-
-// 	ph = (t_philo *)data;
-// 	while (!ft_god_supervisor(ph, 0))
-// 	{
-// 		ft_usleep(1);
-// 		pthread_mutex_lock(&ph->pa->time_eat);
-// 		if ((ft_timer() - ph->ms_eat) >= (long)(ph->pa->die))
-// 		{
-// 			pthread_mutex_unlock(&ph->pa->time_eat);
-// 			pthread_mutex_lock(&ph->pa->write_mutex);
-// 			ft_status("meurt\n", ph);
-// 			pthread_mutex_unlock(&ph->pa->write_mutex);
-// 			pthread_mutex_lock(&ph->pa->dead);
-// 			ph->pa->stop = 1;
-// 			pthread_mutex_unlock(&ph->pa->dead);
-// 			return (NULL);
-// 		}
-// 		pthread_mutex_unlock(&ph->pa->time_eat);
-// 	}
-// 	return (NULL);
-// }
-
 void	*thread(void *data)
 {
 t_phil					*ph;
@@ -124,19 +64,19 @@ t_phil					*ph;
 	ph = (t_phil *)data;
 	if (ph->id % 2 == 0)
 		ft_usleep(ph->pa->eat / 10);
-	while (!ft_god_supervisor(ph, 0))
-	{
+
 		// pthread_create(&ph->thread_death_id, NULL, finishim, data);
-		if (pthread_create(&ph->thread_death_id, NULL, finishim, data) != 0)
+	if (pthread_create(&ph->thread_death_id, NULL, finishim, data) != 0)
         {
             fprintf(stderr, "Error creating thread\n");
             ft_god_supervisor(ph, 1); // Arrêt global en cas d'erreur critique
             return (NULL);
         }
-        pthread_detach(ph->thread_death_id); // Libère la mémoire du thread une fois terminé
+    pthread_detach(ph->thread_death_id); // Libère la mémoire du thread une fois terminé
 
-
-		ft_operation(ph);
+	while (!ft_god_supervisor(ph, 0))
+	{
+			ft_operation(ph);
 		//pthread_detach(ph->thread_death_id);
 		if ((int)++ph->nb_eat == ph->pa->m_eat)
 		{

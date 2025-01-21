@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:56:50 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/17 18:15:06 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/21 22:40:43 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@
 
 #ifndef PHIL_H
 # define PHIL_H
+# define DEBUG 1
 
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <pthread.h>
-
+# include <string.h>
 /*
 ** `t_arg` : Structure contenant les paramètres de la simulation.
 */
