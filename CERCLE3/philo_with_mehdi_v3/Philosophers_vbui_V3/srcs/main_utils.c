@@ -6,11 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:17 by vbui              #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/01/21 05:47:20 by vbui             ###   ########.fr       */
-=======
-/*   Updated: 2025/01/21 07:55:51 by vbui             ###   ########.fr       */
->>>>>>> 10e5ef6 (reglage time)
+/*   Updated: 2025/01/21 14:01:11 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +32,6 @@ int	ft_god_supervisor(t_phil *ph, int i)
 	return (0);
 }
 
-<<<<<<< HEAD
-long int	ft_timer(void)
-{
-	long int		time;
-	struct timeval	current_time;
-
-	if (gettimeofday(&current_time, NULL) == -1)
-	{
-		perror("gettimeofday failed");
-		exit(EXIT_FAILURE);
-	}
-	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
-	return (time);
-}
-=======
 // long int	ft_timer(void)
 // {
 // 	long int		time;
@@ -64,7 +45,6 @@ long int	ft_timer(void)
 // 	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
 // 	return (time);
 // }
->>>>>>> 10e5ef6 (reglage time)
 
 
 
@@ -107,9 +87,6 @@ long int	ft_timer(void)
 // 			usleep(100); // Précision finale pour les petites durées restantes
 // 	}
 // }
-<<<<<<< HEAD
-#define IS_OLD_PC 1 // Passez à 1 si l'ordinateur est ancien
-=======
 // #define IS_OLD_PC 1 // Passez à 1 si l'ordinateur est ancien
 
 // void	ft_usleep(long int time_in_ms)
@@ -146,36 +123,13 @@ long int	ft_timer(void)
 	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
 	return (time);
 }
->>>>>>> 10e5ef6 (reglage time)
 
 void	ft_usleep(long int time_in_ms)
 {
 	long int	start_time;
-<<<<<<< HEAD
-	long int	end_time;
-	long int	sleep_time;
-	int			margin;
-
-	start_time = ft_timer();
-	end_time = start_time + time_in_ms;
-	margin = IS_OLD_PC ? 200 : 1; // Ajustement de la marge pour une meilleure compatibilité
-
-	(void)margin;
-	(void)sleep_time;
-	while ((ft_timer() < end_time))
-	{
-		// sleep_time = end_time - ft_timer();
-		// if (sleep_time > margin)
-			// usleep((sleep_time - margin) * 1000); // Conversion correcte en microsecondes
-		// else
-			usleep(750); // Petits ajustements pour éviter des boucles trop rapides
-	}
-}
-=======
 
 	start_time = 0;
 	start_time = ft_timer();
 	while ((ft_timer() - start_time) < time_in_ms)
 		usleep(time_in_ms / 10);
 }
->>>>>>> 10e5ef6 (reglage time)

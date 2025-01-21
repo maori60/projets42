@@ -6,11 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:00:00 by vbui              #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/01/21 05:47:36 by vbui             ###   ########.fr       */
-=======
-/*   Updated: 2025/01/21 08:23:42 by vbui             ###   ########.fr       */
->>>>>>> 10e5ef6 (reglage time)
+/*   Updated: 2025/01/21 14:40:57 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,48 +53,6 @@ void	*finishim(void *data)
 */
 
 
-<<<<<<< HEAD
-void	*finishim(void *data)
-{
-	t_phil	*ph;
-	long int	current_time;
-	long int	time_since_last_meal;
-
-	ph = (t_phil *)data;
-	if (!ph || !ph->pa)
-		return (NULL);
-	while (!ft_god_supervisor(ph, 0))
-	{
-		// Réduit les cycles de la boucle pour vérifier plus fréquemment
-		// ft_usleep(5); >> ajout 1er
-		ft_usleep(ph->pa->die + 1); //ajout 2e
-		// usleep(900);
-		// usleep(10);
-		// Verrouiller pour lire le dernier temps de repas
-		pthread_mutex_lock(&ph->pa->time_eat);
-		current_time = ft_timer();
-		time_since_last_meal = current_time - ph->ms_eat;
-		pthread_mutex_unlock(&ph->pa->time_eat);
-
-		// Vérifier si le philosophe est mort
-		if (time_since_last_meal >= (long)(ph->pa->die))
-		{
-			pthread_mutex_lock(&ph->pa->write_mutex);
-			ft_status("meurt\n", ph);
-			pthread_mutex_unlock(&ph->pa->write_mutex);
-
-			pthread_mutex_lock(&ph->pa->dead);
-			ph->pa->stop = 1;
-			pthread_mutex_unlock(&ph->pa->dead);
-
-			return (NULL);
-		}
-	}
-
-	return (NULL);
-}
-
-=======
 void *finishim(void *data)
 {
     t_phil *ph = (t_phil *)data;
@@ -138,7 +92,6 @@ void *finishim(void *data)
 }
 
 
->>>>>>> 10e5ef6 (reglage time)
 // void	*finishim(void *data)
 // {
 // 	t_philo	*ph;
@@ -166,37 +119,6 @@ void *finishim(void *data)
 
 void	*thread(void *data)
 {
-<<<<<<< HEAD
-	t_phil	*phil;
-
-	phil = (t_phil *)data;
-	// if (phil->id % 2 == 0)
-		// ft_usleep(phil->pa->eat / 10);
-	if (phil->id % 2 == 0)
-		usleep(2000);
-		// ft_usleep(phil->pa->eat / 10);
-	while (!ft_god_supervisor(phil, 0))
-	{
-		// pthread_create(&phil->thread_death_id, NULL, finishim, data);
-		ft_operation(phil);
-		// pthread_detach(phil->thread_death_id);
-		pthread_mutex_lock(&phil->pa->finish);
-		phil->nb_eat++;
-		if (phil->nb_eat == (unsigned int)phil->pa->m_eat)
-		{
-			phil->finish = 1;
-			phil->pa->nb_p_finish++;
-			//
-			// if (phil->nb_eat == (unsigned int)phil->pa->m_eat)
-			if (phil->pa->nb_p_finish == phil->pa->total)
-			{
-				pthread_mutex_lock(&phil->pa->dead);
-				phil->pa->stop = 2;
-				pthread_mutex_unlock(&phil->pa->dead);
-			}
-		}
-		pthread_mutex_unlock(&phil->pa->finish);
-=======
 t_phil					*ph;
 
 	ph = (t_phil *)data;
@@ -204,24 +126,32 @@ t_phil					*ph;
 		ft_usleep(ph->pa->eat / 10);
 	while (!ft_god_supervisor(ph, 0))
 	{
-		pthread_create(&ph->thread_death_id, NULL, finishim, data);
+		// pthread_create(&ph->thread_death_id, NULL, finishim, data);
+		if (pthread_create(&ph->thread_death_id, NULL, finishim, data) != 0)
+        {
+            fprintf(stderr, "Error creating thread\n");
+            ft_god_supervisor(ph, 1); // Arrêt global en cas d'erreur critique
+            return (NULL);
+        }
+        pthread_detach(ph->thread_death_id); // Libère la mémoire du thread une fois terminé
+
+
 		ft_operation(ph);
 		//pthread_detach(ph->thread_death_id);
 		if ((int)++ph->nb_eat == ph->pa->m_eat)
 		{
-			pthread_mutex_lock(&ph->pa->finish);
+			//pthread_mutex_lock(&ph->pa->finish);
 			ph->finish = 1;
 			ph->pa->nb_p_finish++;
 			if (ph->pa->nb_p_finish == ph->pa->total)
 			{
-				pthread_mutex_unlock(&ph->pa->finish);
+				pthread_mutex_lock(&ph->pa->finish);
 				ft_god_supervisor(ph, 2);
 				pthread_mutex_unlock(&ph->pa->finish);
 			}
-			pthread_mutex_unlock(&ph->pa->finish);
-			return (NULL);
+		// 	pthread_mutex_unlock(&ph->pa->finish);
+		// 	return (NULL);
 		}
->>>>>>> 10e5ef6 (reglage time)
 	}
 	return (NULL);
 }
@@ -238,10 +168,6 @@ int	threading(t_p *p)
 			return (ft_byebye("Pthread did not return 0\n"));
 		i++;
 	}
-<<<<<<< HEAD
-	finishim(&p->ph[0]);
-=======
 	finishim(&p->ph[i]);
->>>>>>> 10e5ef6 (reglage time)
 	return (1);
 }

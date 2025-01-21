@@ -117,7 +117,7 @@ void	stop_operator(t_p *p)
 		i++;
 	}
 	if (p->a.stop == 2)
-		printf("Chaque philosophe a mang\u00e9 %d fois\n", p->a.m_eat);
+		printf("Each philo eaten a latest %d times\n", p->a.m_eat);
 	free(p->ph);
 }
 

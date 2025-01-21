@@ -6,11 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:22 by vbui              #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/01/21 05:40:19 by vbui             ###   ########.fr       */
-=======
 /*   Updated: 2025/01/21 08:00:15 by vbui             ###   ########.fr       */
->>>>>>> 10e5ef6 (reglage time)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,17 +181,10 @@ int	ft_initialization(t_p *p)
 	i = 0;
 	while (i < p->a.total)
 	{	
-<<<<<<< HEAD
-		p->ph[i].thread_id = -1;
-		p->ph[i].id = i + 1;
-		p->ph[i].ms_eat = p->a.start_t;
-		p->ph[i].nb_eat = -1;
-=======
 		//p->ph[i].thread_id = -1;
 		p->ph[i].id = i + 1;
 		p->ph[i].ms_eat = p->a.start_t;
 		p->ph[i].nb_eat = 0;
->>>>>>> 10e5ef6 (reglage time)
 		p->ph[i].finish = 0;
 		p->ph[i].right_f = NULL;
 		pthread_mutex_init(&p->ph[i].left_f, NULL);
