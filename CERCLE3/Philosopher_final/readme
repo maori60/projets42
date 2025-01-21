@@ -1,0 +1,137 @@
+# Philosopher Project - README
+
+### **Introduction**
+
+The **Philosopher** project simulates the classic Dining Philosophers problem using multithreading and synchronization mechanisms in C. The objective is to ensure that philosophers can eat, sleep, and think without falling into common pitfalls like deadlocks, race conditions, or starvation.
+
+This README explains the key strategies, challenges, and implementation details that led to the successful completion of the project.
+
+---
+
+## **Project Structure**
+
+### **Source Files**
+1. **`lib.c`**: Utility functions for standard output and string manipulation.
+2. **`main_utils.c`**: Provides time management utilities and supervises the simulation stop condition.
+3. **`main.c`**: The entry point, responsible for initialization and resource cleanup.
+4. **`operator.c`**: Handles the philosophers' actions such as eating, sleeping, and thinking.
+5. **`parsing_init.c`**: Parses input arguments, validates them, and initializes resources.
+6. **`threading.c`**: Manages the creation and control of threads for each philosopher.
+7. **`philosophers.h`**: Header file containing structure definitions and function prototypes.
+
+---
+
+## **Implementation Details**
+
+### **Key Structures**
+1. **`t_arg`**: Contains global simulation parameters, including mutexes for synchronization.
+2. **`t_philo`**: Represents each philosopher, including their state, forks, and thread IDs.
+3. **`t_p`**: Bundles all philosophers and simulation parameters.
+
+---
+
+### **Mutex Design and Usage**
+- **`write_mutex`**: Ensures thread-safe output to avoid overlapping console logs.
+- **`dead`**: Protects access to the `stop` flag, indicating when the simulation should halt.
+- **`time_eat`**: Synchronizes access to the last meal time of each philosopher.
+- **`finish`**: Tracks the number of philosophers who have finished eating.
+- **Per-Philosopher Fork Mutex**: Each fork is a mutex associated with a philosopher’s left hand, ensuring no two philosophers simultaneously use the same fork.
+
+**Total Mutex Count**: 4 global mutexes + 1 mutex per philosopher.
+
+---
+
+### **Challenges and Solutions**
+
+#### 1. **Deadlock Prevention**
+To prevent deadlocks, an **odd/even strategy** was implemented:
+- Philosophers with an **even ID** pick up their **left fork first**, followed by the right fork.
+- Philosophers with an **odd ID** pick up their **right fork first**, followed by the left fork.
+
+This alternation ensures that adjacent philosophers do not simultaneously block each other while attempting to pick up forks.
+
+---
+
+#### 2. **Race Condition Mitigation**
+Mutexes were employed to synchronize access to shared resources:
+- The **last meal time** is protected by `time_eat`.
+- The **stop condition** is protected by `dead`.
+
+---
+
+#### 3. **Handling Single Philosopher Edge Case**
+If there is only one philosopher:
+- The philosopher picks up their single fork and waits until their death time, as there is no second fork to eat.
+
+---
+
+### **Simulation Flow**
+
+1. **Initialization**: 
+   - Parse input arguments.
+   - Initialize mutexes and resources.
+   - Allocate memory for philosophers.
+
+2. **Threading**:
+   - Create a thread for each philosopher to handle their actions (`thread` function).
+   - Spawn a monitoring thread (`finishim`) for each philosopher to check if they have died.
+
+3. **Philosopher Actions**:
+   - **Pick Up Forks**: Use the odd/even strategy to avoid deadlocks.
+   - **Eat**: Simulate eating while updating the last meal time.
+   - **Sleep and Think**: Release forks and perform the respective actions.
+
+4. **Monitoring**:
+   - Each philosopher's death is checked by a monitoring thread using the `finishim` function.
+
+5. **Cleanup**:
+   - Join all threads.
+   - Destroy mutexes.
+   - Free allocated resources.
+
+---
+
+### **Highlights of the Strategy**
+1. **Deadlock Avoidance**:
+   - The odd/even strategy ensures no two adjacent philosophers block each other indefinitely.
+2. **Race Condition Prevention**:
+   - Mutexes ensure that shared resources are accessed safely.
+3. **Scalable Design**:
+   - Supports any number of philosophers with minimal changes to the logic.
+
+---
+
+## **Complexity Analysis**
+
+### **Time Complexity**
+- Picking up forks: **O(1)** (mutex lock/unlock).
+- Eating: **O(1)** (time simulation).
+- Sleeping/Thinking: **O(1)**.
+- Threading and initialization: **O(n)**, where `n` is the number of philosophers.
+
+### **Space Complexity**
+- Memory allocation for `n` philosophers: **O(n)**.
+- Mutex allocation: **O(n)**.
+
+---
+
+### **Key Points of Success**
+- Efficient handling of concurrency using **mutex locks**.
+- Robust **edge case management** (e.g., single philosopher scenario).
+- Avoidance of deadlocks with a carefully crafted **fork-picking strategy**.
+
+---
+
+## **Execution**
+To compile and run:
+1. **Compile**:
+   ```bash
+   make
+
+
+./philo <number_of_philosophers> <time_to_die> <time_to_eat> <time_to_sleep> [number_of_times_each_philosopher_must_eat]
+
+
+Author
+Van Tien BUI
+(vbui@student.42.fr, École 42 Paris)
