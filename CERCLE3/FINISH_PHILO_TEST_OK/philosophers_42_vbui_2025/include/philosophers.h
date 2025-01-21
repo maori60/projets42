@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:56:50 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/21 22:40:43 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/21 23:47:29 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_arg
 	pthread_mutex_t			finish;
 	int						nb_p_finish;
 	int						stop;
+	int single_philo;
 }							t_arg;
 
 /*

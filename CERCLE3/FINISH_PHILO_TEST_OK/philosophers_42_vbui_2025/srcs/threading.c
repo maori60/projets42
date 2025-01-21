@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:00:00 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/21 22:46:55 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/21 23:51:56 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ void	*thread(void *data)
 t_phil					*ph;
 
 	ph = (t_phil *)data;
+	if (ph->pa->total == 1)
+	{
+		ft_status("has taken the fork of death\n", ph);
+        ft_usleep(ph->pa->die); // Le philosophe attend jusqu'à son time_to_die
+        ft_status("died\n", ph);
+        ft_god_supervisor(ph, 1); // Arrêt global de la simulation
+        return NULL;
+	}
+
 	if (ph->id % 2 == 0)
 		ft_usleep(ph->pa->eat / 10);
 
@@ -108,6 +117,6 @@ int	threading(t_p *p)
 			return (ft_byebye("Pthread did not return 0\n"));
 		i++;
 	}
-	finishim(&p->ph[i]);
+	// finishim(&p->ph[i]);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:19 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/21 22:46:12 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/21 23:51:42 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,33 @@ void	ft_sleep_and_think(t_phil *ph)
 
 void	ft_operation(t_phil *ph)
 {
+	
+
+	// if (ph->pa->single_philo)
+	// {
+	// 	ft_status("has taken the fork of death\n", ph);
+    //     ft_usleep(ph->pa->die); // Le philosophe attend jusqu'à son time_to_die
+    //     ft_status("died\n", ph);
+    //     ft_god_supervisor(ph, 1); // Arrêt global de la simulation
+    //     return;
+	// 	// pthread_mutex_lock(&ph->left_f);
+	// 	// pthread_mutex_lock(&ph->pa->write_mutex);
+	// 	// ft_status("has taken the fork of death\n", ph);
+	// 	// pthread_mutex_unlock(&ph->pa->write_mutex);
+
+	// 	// // Philosophe attend mais meurt avant de pouvoir prendre une deuxième fourchette
+	// 	// ft_usleep(ph->pa->die); // Attend jusqu'à son time_to_die
+	// 	// pthread_mutex_lock(&ph->pa->write_mutex);
+	// 	// ft_status("died\n", ph);
+	// 	// ft_god_supervisor(ph, 1); // Arrêt global
+	// 	// pthread_mutex_unlock(&ph->pa->write_mutex);
+
+	// 	// pthread_mutex_unlock(&ph->left_f);
+	// 	// return;
+	// }
+	
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
-
-	if (ph->pa->total == 1)
-	{
-		pthread_mutex_lock(&ph->left_f);
-		pthread_mutex_lock(&ph->pa->write_mutex);
-		ft_status("take die's fork de la muerte\n", ph);
-		pthread_mutex_unlock(&ph->pa->write_mutex);
-
-		// Philosophe attend mais meurt avant de pouvoir prendre une deuxième fourchette
-		ft_usleep(ph->pa->die); // Attend jusqu'à son time_to_die
-		pthread_mutex_lock(&ph->pa->write_mutex);
-		ft_status("died\n", ph);
-		ft_god_supervisor(ph, 1); // Arrêt global
-		pthread_mutex_unlock(&ph->pa->write_mutex);
-
-		pthread_mutex_unlock(&ph->left_f);
-		return;
-	}
 	if (ph->id % 2 == 0)
 	{
 		first_fork = &ph->left_f;

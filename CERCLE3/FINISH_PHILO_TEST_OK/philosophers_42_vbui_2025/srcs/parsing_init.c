@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:22 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/21 08:00:15 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/21 23:47:45 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int	parsing_args(int argc, char **argv, t_p *p)
 			return (0);
 		if (p->a.die > 1000000 || p->a.eat > 1000000 || p->a.sleep > 1000000)
 			return (0);
+		p->a.single_philo = (p->a.total == 1); //single
 
 		return (1);
 	}
