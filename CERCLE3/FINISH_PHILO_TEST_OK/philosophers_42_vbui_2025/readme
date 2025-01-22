@@ -25,7 +25,7 @@ This README explains the key strategies, challenges, and implementation details 
 
 ### **Key Structures**
 1. **`t_arg`**: Contains global simulation parameters, including mutexes for synchronization.
-2. **`t_philo`**: Represents each philosopher, including their state, forks, and thread IDs.
+2. **`t_phil`**: Represents each philosopher, including their state, forks, and thread IDs.
 3. **`t_p`**: Bundles all philosophers and simulation parameters.
 
 ---
@@ -35,9 +35,10 @@ This README explains the key strategies, challenges, and implementation details 
 - **`dead`**: Protects access to the `stop` flag, indicating when the simulation should halt.
 - **`time_eat`**: Synchronizes access to the last meal time of each philosopher.
 - **`finish`**: Tracks the number of philosophers who have finished eating.
-- **Per-Philosopher Fork Mutex**: Each fork is a mutex associated with a philosopher’s left hand, ensuring no two philosophers simultaneously use the same fork.
+- **GOD OD DEATH**:  track and manages the state of the simulation by monitoring the elapsed time since each philosophers's last meal. It ensures that the program hallts if a philosopher exceeds  their "time_to_die", display the death message, and triggers the global stop condition.
 
-**Total Mutex Count**: 4 global mutexes + 1 mutex per philosopher.
+**Total Mutex Count**: 4 global mutexes (for logging, simulation state, last meal time, and finished count) + 1 mutex per philosopher (for each philosopher's left_fork).
+**Total Mutex Count**: 1 global thread (to monitor all philosophers's states, including death and simulation halt) + 1 thread per philosopher (to manage their actions such as eating, sleeping and thinking).
 
 ---
 
