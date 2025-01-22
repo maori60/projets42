@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:22 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/21 23:47:45 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/22 00:59:51 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,11 +149,20 @@ int	parsing_args(int argc, char **argv, t_p *p)
 		p->a.m_eat = (argc == 6) ? ft_atoi(argv[5]) : -1;
 
 		// Vérification des bornes
-		if (p->a.total <= 0 || p->a.die <= 0 || p->a.eat <= 0 || p->a.sleep <= 0)
+		if (p->a.total <= 0 || p->a.die < 100 || p->a.eat < 100 || p->a.sleep <  100)
+		{
+			printf("min_philo = 1 |   min_die = 100  |  min_die = 100  |  min_die = 100");
 			return (0);
+		}
+
+		if (p->a.total > MAX_PHILO  || p->a.die >1000 || p->a.eat > 1000 || p->a.sleep > 1000)
+		{
+			printf("max_philo = 200 |   max_die = 1000  |  max_die = 1000  |  max_die = 1000");
+			return (0);
+		}
 		if (p->a.die > 1000000 || p->a.eat > 1000000 || p->a.sleep > 1000000)
 			return (0);
-		p->a.single_philo = (p->a.total == 1); //single
+		// p->a.single_philo = (p->a.total == 1); //single
 
 		return (1);
 	}

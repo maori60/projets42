@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:19 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/21 23:51:42 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/22 00:56:19 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	ft_status(char *str, t_phil *ph)
 	{
 		printf("%ld ", time);
 		printf("Philo %d is %s", ph->id, str);
+		if (DEBUG && strcmp(str, "eating\n") == 0)
+			printf("(count current meal: %d)", ph->nb_eat + 1);
+		printf("\n");
 	}
 }
 

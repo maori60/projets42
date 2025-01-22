@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:56:50 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/21 23:47:29 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/22 00:57:11 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@
 
 #ifndef PHIL_H
 # define PHIL_H
-# define DEBUG 1
+# define DEBUG 0
+# define MAX_PHILO 200
+# define USLEEP_TIMER 500
 
 # include <stdio.h>
 # include <unistd.h>
@@ -54,7 +56,7 @@ typedef struct s_arg
 	pthread_mutex_t			finish;
 	int						nb_p_finish;
 	int						stop;
-	int single_philo;
+	// int single_philo;
 }							t_arg;
 
 /*
