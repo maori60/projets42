@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:00:00 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/22 00:34:56 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/22 10:26:55 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ t_phil					*ph;
         return NULL;
 	}
 
-	if (ph->id % 2 == 0)
+	// if (ph->id % 2 == 0)
+	// 	ft_usleep(ph->pa->eat / 10); // fonction de base
+	// 	// usleep(900);
+	if (ph->pa->total % 2 == 0 && ph->id % 2 == 0)
 		ft_usleep(ph->pa->eat / 10);
 
 		// pthread_create(&ph->thread_death_id, NULL, finishim, data);

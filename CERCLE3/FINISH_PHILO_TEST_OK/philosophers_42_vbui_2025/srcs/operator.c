@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:19 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/22 00:56:19 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/22 10:00:38 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_sleep_and_think(t_phil *ph)
 	pthread_mutex_unlock(&ph->pa->write_mutex);
 	ft_usleep(ph->pa->sleep);
 	// if (ph->pa->total % 2)
-	// 	ft_usleep(ph->pa->m_eat * 500);
+	// 	ft_usleep(ph->pa->m_eat * 5000);
 	pthread_mutex_lock(&ph->pa->write_mutex);
 	ft_status("think\n", ph);
 	pthread_mutex_unlock(&ph->pa->write_mutex);

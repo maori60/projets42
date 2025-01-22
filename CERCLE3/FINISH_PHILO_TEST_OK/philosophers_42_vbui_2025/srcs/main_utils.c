@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:17 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/22 00:36:07 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/22 09:06:20 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,64 +116,64 @@ int	ft_god_supervisor(t_phil *p, int i)
 // 	}
 // }
 
-// long int	ft_timer(void)
-// {
-// 	long int			time;
-// 	struct timeval		current_time;
-
-// 	time = 0;
-// 	if (gettimeofday(&current_time, NULL) == -1)
-// 		ft_byebye("Gettimeofday returned -1\n");
-// 	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
-// 	return (time);
-// }
-
-// void	ft_usleep(long int time_in_ms)
-// {
-// 	long int	start_time;
-
-// 	start_time = 0;
-// 	start_time = ft_timer();
-// 	while ((ft_timer() - start_time) < time_in_ms)
-// 		usleep(time_in_ms / 1000);
-// }
-
-# define IS_OLD_PC 1
-
 long int	ft_timer(void)
 {
-	long int		time;
-	struct timeval	current_time;
+	long int			time;
+	struct timeval		current_time;
 
+	time = 0;
 	if (gettimeofday(&current_time, NULL) == -1)
-	{
-		perror("gettimeofday failed");
-		exit(EXIT_FAILURE);
-	}
-	time = (current_time.tv_sec * 1000)
-		+ (current_time.tv_usec / 1000);
+		ft_byebye("Gettimeofday returned -1\n");
+	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
 	return (time);
 }
 
 void	ft_usleep(long int time_in_ms)
 {
 	long int	start_time;
-	long int	end_time;
-	long int	sleep_time;
-	int			margin;
 
+	start_time = 0;
 	start_time = ft_timer();
-	end_time = start_time + time_in_ms;
-	if (IS_OLD_PC)
-		margin = 200;
-	else
-		margin = 10;
-	while (ft_timer() < end_time)
-	{
-		sleep_time = end_time - ft_timer();
-		if (sleep_time > margin)
-			usleep((sleep_time - margin) * 1000);
-		else
-			usleep(1000);
-	}
+	while ((ft_timer() - start_time) < time_in_ms)
+		usleep(time_in_ms / 10);
 }
+
+
+
+// long int	ft_timer(void)
+// {
+// 	long int		time;
+// 	struct timeval	current_time;
+
+// 	if (gettimeofday(&current_time, NULL) == -1)
+// 	{
+// 		perror("gettimeofday failed");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	time = (current_time.tv_sec * 1000)
+// 		+ (current_time.tv_usec / 1000);
+// 	return (time);
+// }
+
+// void	ft_usleep(long int time_in_ms)
+// {
+// 	long int	start_time;
+// 	long int	end_time;
+// 	long int	sleep_time;
+// 	int			margin;
+
+// 	start_time = ft_timer();
+// 	end_time = start_time + time_in_ms;
+// 	if (IS_OLD_PC)
+// 		margin = 200;
+// 	else
+// 		margin = 1;
+// 	while (ft_timer() < end_time)
+// 	{
+// 		sleep_time = end_time - ft_timer();
+// 		if (sleep_time > margin)
+// 			usleep((sleep_time - margin) * 1000);
+// 		else
+// 			usleep(USLEEP_TIMER);
+// 	}
+// }

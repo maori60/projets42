@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:56:50 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/22 00:57:11 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/22 11:06:02 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@
 #ifndef PHIL_H
 # define PHIL_H
 # define DEBUG 0
-# define MAX_PHILO 200
-# define USLEEP_TIMER 500
+# define MAX_PHILO 500
+# define USLEEP_TIMER 1
+// # define IS_OLD_PC 0
 
 # include <stdio.h>
 # include <unistd.h>
