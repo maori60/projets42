@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:56:50 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/23 04:05:30 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/23 05:11:54 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define PHILOSOPHERS_H
 
 # define DEBUG 0
-# define MAX_PHILO 200
-# define USLEEP_TIMER 1
+# define MAX_PHILO 
 
 # include <stdio.h>
 # include <unistd.h>
