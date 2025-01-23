@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:22 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/23 04:29:14 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/23 11:18:32 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	parsing_args(int argc, char **argv, t_p *p)
 			p->a.m_eat = ft_atoi(argv[5]);
 		else
 			p->a.m_eat = -1;
-		if (p->a.total <= 0 || p->a.total > MAX_PHILO)
+		if (p->a.total > MAX_PHILO)
 		{
 			printf("respect number max_philo = 200\n");
 			return (0);
