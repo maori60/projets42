@@ -6,109 +6,98 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:19 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/22 10:00:38 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/23 03:43:48 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** Ce fichier gère les actions des philosophes : prendre des fourchettes,
-** manger, dormir et penser. Il inclut également des fonctions pour afficher
-** les statuts des philosophes avec une gestion des mutex pour éviter les
-** conflits d'accès entre les threads.
-*/
-
 #include "../include/philosophers.h"
+
+/*
+** ft_status:
+** Prints the philosopher's status (time, id, message)
+** if the simulation has not ended. Uses write_mutex to protect output.
+*/
 void	ft_status(char *str, t_phil *ph)
 {
 	long int	time;
 
-	time = -1;
 	time = ft_timer() - ph->pa->start_t;
-	if (time >= 0 && time <= 2147483647 && !ft_god_supervisor(ph, 0))
+	pthread_mutex_lock(&ph->pa->write_mutex);
+	if (!ft_god_supervisor(ph, 0))
 	{
-		printf("%ld ", time);
-		printf("Philo %d is %s", ph->id, str);
-		if (DEBUG && strcmp(str, "eating\n") == 0)
-			printf("(count current meal: %d)", ph->nb_eat + 1);
-		printf("\n");
+		printf("%ld Philo %d %s\n", time, ph->id, str);
 	}
+	pthread_mutex_unlock(&ph->pa->write_mutex);
 }
 
+/*
+** ft_sleep_and_think:
+** 1) Prints "is sleeping", sleeps for p->a.sleep ms.
+** 2) Calculates time_to_think based on:
+**    (die - (now - last_meal) - eat) / 2,
+**    clamped between 1 and 200 ms.
+** 3) Prints "is thinking" and sleeps for time_to_think ms.
+*/
 void	ft_sleep_and_think(t_phil *ph)
 {
+	long int	t_to_think;
+	long int	now;
+
 	pthread_mutex_lock(&ph->pa->write_mutex);
-	ft_status("sleep\n", ph);
+	if (!ft_god_supervisor(ph, 0))
+		printf("%ld Philo %d is sleeping\n",
+			ft_timer() - ph->pa->start_t, ph->id);
 	pthread_mutex_unlock(&ph->pa->write_mutex);
 	ft_usleep(ph->pa->sleep);
-	// if (ph->pa->total % 2)
-	// 	ft_usleep(ph->pa->m_eat * 5000);
+	pthread_mutex_lock(&ph->pa->time_eat);
+	now = ft_timer();
+	t_to_think = (ph->pa->die - (now - ph->ms_eat) - ph->pa->eat) / 2;
+	pthread_mutex_unlock(&ph->pa->time_eat);
+	if (t_to_think < 1)
+		t_to_think = 1;
+	if (t_to_think > 600)
+		t_to_think = 200;
 	pthread_mutex_lock(&ph->pa->write_mutex);
-	ft_status("think\n", ph);
+	if (!ft_god_supervisor(ph, 0))
+		printf("%ld Philo %d is thinking\n",
+			ft_timer() - ph->pa->start_t, ph->id);
 	pthread_mutex_unlock(&ph->pa->write_mutex);
+	ft_usleep(t_to_think);
 }
 
+/*
+** ft_operation:
+** 1) Picks forks in order (avoid deadlock):
+**    - even id => left_f then right_f
+**    - odd  id => right_f then left_f
+** 2) Prints "has taken a fork" x2, updates last_meal, prints "is eating".
+** 3) Frees forks and calls ft_sleep_and_think.
+*/
 void	ft_operation(t_phil *ph)
 {
-	
+	pthread_mutex_t	*fork1;
+	pthread_mutex_t	*fork2;
 
-	// if (ph->pa->single_philo)
-	// {
-	// 	ft_status("has taken the fork of death\n", ph);
-    //     ft_usleep(ph->pa->die); // Le philosophe attend jusqu'à son time_to_die
-    //     ft_status("died\n", ph);
-    //     ft_god_supervisor(ph, 1); // Arrêt global de la simulation
-    //     return;
-	// 	// pthread_mutex_lock(&ph->left_f);
-	// 	// pthread_mutex_lock(&ph->pa->write_mutex);
-	// 	// ft_status("has taken the fork of death\n", ph);
-	// 	// pthread_mutex_unlock(&ph->pa->write_mutex);
-
-	// 	// // Philosophe attend mais meurt avant de pouvoir prendre une deuxième fourchette
-	// 	// ft_usleep(ph->pa->die); // Attend jusqu'à son time_to_die
-	// 	// pthread_mutex_lock(&ph->pa->write_mutex);
-	// 	// ft_status("died\n", ph);
-	// 	// ft_god_supervisor(ph, 1); // Arrêt global
-	// 	// pthread_mutex_unlock(&ph->pa->write_mutex);
-
-	// 	// pthread_mutex_unlock(&ph->left_f);
-	// 	// return;
-	// }
-	
-	pthread_mutex_t	*first_fork;
-	pthread_mutex_t	*second_fork;
 	if (ph->id % 2 == 0)
 	{
-		first_fork = &ph->left_f;
-		second_fork = ph->right_f;
+		fork1 = &ph->left_f;
+		fork2 = ph->right_f;
 	}
 	else
 	{
-		first_fork = ph->right_f;
-		second_fork = &ph->left_f;
+		fork1 = ph->right_f;
+		fork2 = &ph->left_f;
 	}
-	// first_fork = &ph->left_f;
-	// second_fork = ph->right_f;
-	pthread_mutex_lock(first_fork);
-	pthread_mutex_lock(&ph->pa->write_mutex);
-	ft_status("take a fork\n", ph);
-	pthread_mutex_unlock(&ph->pa->write_mutex);
-
-
-	// pthread_mutex_unlock(first_fork); //ajout
-	pthread_mutex_lock(second_fork);
-	pthread_mutex_lock(&ph->pa->write_mutex);
-	ft_status("take a fork\n", ph);
-	pthread_mutex_unlock(&ph->pa->write_mutex);
-	pthread_mutex_lock(&ph->pa->write_mutex);
-	ft_status("eating\n", ph);
-	pthread_mutex_lock(&ph->pa->time_eat);
-
+	pthread_mutex_lock(fork1);
+	ft_status("has taken a fork", ph);
+	pthread_mutex_lock(fork2);
+	ft_status("has taken a fork", ph);
+	pthread_mutex_lock(&ph->meal_time_lock);
 	ph->ms_eat = ft_timer();
-
-	pthread_mutex_unlock(&ph->pa->time_eat);
-	pthread_mutex_unlock(&ph->pa->write_mutex);
+	pthread_mutex_unlock(&ph->meal_time_lock);
+	ft_status("is eating", ph);
 	ft_usleep(ph->pa->eat);
-	pthread_mutex_unlock(second_fork);
-	pthread_mutex_unlock(first_fork);
+	pthread_mutex_unlock(fork2);
+	pthread_mutex_unlock(fork1);
 	ft_sleep_and_think(ph);
 }

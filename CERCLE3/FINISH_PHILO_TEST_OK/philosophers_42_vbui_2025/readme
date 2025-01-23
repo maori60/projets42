@@ -1,138 +1,145 @@
-# Philosopher Project - README
+  Philosopher Project
 
-### **Introduction**
 
-The **Philosopher** project simulates the classic Dining Philosophers problem using multithreading and synchronization mechanisms in C. The objective is to ensure that philosophers can eat, sleep, and think without falling into common pitfalls like deadlocks, race conditions, or starvation.
 
-This README explains the key strategies, challenges, and implementation details that led to the successful completion of the project.
+  <iSimulating the Dining Philosophers Problem with Threads and Mutexes in C
 
----
-
-## **Project Structure**
-
-### **Source Files**
-1. **`lib.c`**: Utility functions for standard output and string manipulation.
-2. **`main_utils.c`**: Provides time management utilities and supervises the simulation stop condition.
-3. **`main.c`**: The entry point, responsible for initialization and resource cleanup.
-4. **`operator.c`**: Handles the philosophers' actions such as eating, sleeping, and thinking.
-5. **`parsing_init.c`**: Parses input arguments, validates them, and initializes resources.
-6. **`threading.c`**: Manages the creation and control of threads for each philosopher.
-7. **`philosophers.h`**: Header file containing structure definitions and function prototypes.
 
 ---
 
-## **Implementation Details**
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Project Structure](#project-structure)
+3. [Implementation Details](#implementation-details)
+4. [Challenges and Solutions](#challenges-and-solutions)
+5. [Simulation Flow](#simulation-flow)
+6. [Complexity Analysis](#complexity-analysis)
+7. [Execution](#execution)
+8. [Author](#author)
+
+---
+
+The **Philosopher** project implements a version of the classic “Dining Philosophers” problem in the C language, leveraging multithreading, mutexes, and various synchronization strategies to prevent deadlocks, race conditions, or starvation scenarios.
+
+---
+
+
+**Source Files**  
+1. **`lib.c`**  
+   Basic utility functions for standard output (characters, strings, numbers) and string length checks.
+
+2. **`main_utils.c`**  
+   Offers time management utilities (getting current system time in ms, custom usleep) and supervises the simulation’s stop condition.
+
+3. **`main.c`**  
+   The program’s entry point. Parses arguments, initializes resources, launches the simulation (threads), and cleans up upon completion.
+
+4. **`operator.c`**  
+   Defines the core actions: eating, sleeping, and thinking. Also includes fork-taking logic.
+
+5. **`parsing.c`**  
+   Responsible for argument parsing, numeric checks, and input boundary validation.
+
+6. **`init.c`**  
+   Initializes the global parameters (`t_arg`) and sets up each philosopher’s forks and threads.
+
+7. **`threading.c`**  
+   Manages creation of philosopher threads and routine definitions (or calls out to helper functions).
+
+8. **`finishim.c`**  
+   Contains the monitoring thread (`finishim`) which periodically checks if a philosopher has died.
+
+9. **`stop_operator.c`**  
+   Waits for simulation end, joins all threads, destroys mutexes, and frees memory.
+
+10. **`philosophers.h`**  
+    Holds structures (`t_arg`, `t_phil`, `t_p`) and function prototypes used across the entire project.
+
+---
+
 
 ### **Key Structures**
-1. **`t_arg`**: Contains global simulation parameters, including mutexes for synchronization.
-2. **`t_phil`**: Represents each philosopher, including their state, forks, and thread IDs.
-3. **`t_p`**: Bundles all philosophers and simulation parameters.
+- **`t_arg`**  
+  Global parameters (time_to_die, time_to_eat, etc.) plus mutexes (`write_mutex`, `dead`, `time_eat`, `finish`) and a `stop` flag.
+
+- **`t_phil`**  
+  Per-philosopher data (ID, left_f fork mutex, pointer to right_f, last meal time, plus threads).
+
+- **`t_p`**  
+  Wraps an array of philosophers (`t_phil *ph`) and the global `t_arg` struct.
+
+### **Mutex Distribution**
+- **Global**:  
+  - `write_mutex` to serialize printing.  
+  - `dead` to protect the `stop` flag.  
+  - `time_eat` to manage last meal time safely.  
+  - `finish` to count how many philosophers met their required meals.  
+- **Per philosopher**:  
+  - A `left_f` fork mutex.  
+  - A pointer to the `right_f` fork (the neighbor’s left_f).  
+  - An optional `meal_time_lock` if needed for local counters.
+
+### **“God of Death” (Monitoring)**
+- Each philosopher has a thread (`finishim`) that checks `(current_time - last_meal) >= time_to_die`. If yes, prints “died” and sets `stop=1`.
 
 ---
 
-### **Mutex Design and Usage**
-- **`write_mutex`**: Ensures thread-safe output to avoid overlapping console logs.
-- **`dead`**: Protects access to the `stop` flag, indicating when the simulation should halt.
-- **`time_eat`**: Synchronizes access to the last meal time of each philosopher.
-- **`finish`**: Tracks the number of philosophers who have finished eating.
-- **GOD OD DEATH**:  track and manages the state of the simulation by monitoring the elapsed time since each philosophers's last meal. It ensures that the program hallts if a philosopher exceeds  their "time_to_die", display the death message, and triggers the global stop condition.
+1. **Deadlock Avoidance**  
+   Adopting an **odd/even** fork-picking strategy:
+   - Even ID philosophers pick **left fork** first, then right.  
+   - Odd ID philosophers pick **right fork** first, then left.  
 
-**Total Mutex Count**: 4 global mutexes (for logging, simulation state, last meal time, and finished count) + 1 mutex per philosopher (for each philosopher's left_fork).
-**Total Mutex Count**: 1 global thread (to monitor all philosophers's states, including death and simulation halt) + 1 thread per philosopher (to manage their actions such as eating, sleeping and thinking).
+2. **Race Condition Mitigation**  
+   Mutexes around shared data:  
+   - `dead` for the simulation’s stop condition.  
+   - `time_eat` for last_meal access.  
+   - `finish` for meal-completion count.
 
----
-
-### **Challenges and Solutions**
-
-#### 1. **Deadlock Prevention**
-To prevent deadlocks, an **odd/even strategy** was implemented:
-- Philosophers with an **even ID** pick up their **left fork first**, followed by the right fork.
-- Philosophers with an **odd ID** pick up their **right fork first**, followed by the left fork.
-
-This alternation ensures that adjacent philosophers do not simultaneously block each other while attempting to pick up forks.
+3. **Single Philosopher Edge Case**  
+   If **total == 1**, the philosopher only has one fork and cannot eat. He dies after `time_to_die`, printing “died” and triggering stop=1.
 
 ---
 
-#### 2. **Race Condition Mitigation**
-Mutexes were employed to synchronize access to shared resources:
-- The **last meal time** is protected by `time_eat`.
-- The **stop condition** is protected by `dead`.
+## <span style="color:#9b59b6;">Simulation Flow</span>
+
+1. **Initialization**  
+   - Parse arguments, initialize global struct (`t_arg`), set up mutexes.  
+   - Allocate philosophers, each with left_f, pointer to right_f.
+
+2. **Threading**  
+   - Each philosopher runs a main routine (`thread`).  
+   - A separate `finishim` thread monitors potential death.
+
+3. **Philosopher Actions**  
+   - **fork picking** (odd/even logic).  
+   - **eating** (update ms_eat, increment nb_eat).  
+   - **sleeping** & **thinking**.
+
+4. **Monitoring**  
+   - If `(current_time - ms_eat) >= time_to_die`, signals a death event (`stop=1`).
+
+5. **Cleanup**  
+   - Join threads, destroy mutexes, free memory.
 
 ---
 
-#### 3. **Handling Single Philosopher Edge Case**
-If there is only one philosopher:
-- The philosopher picks up their single fork and waits until their death time, as there is no second fork to eat.
+**Time Complexity**  
+- **O(n)** for thread creation/joining.  
+- Each philosopher’s routine is constant-time operations inside loops, though they run concurrently.
+
+**Space Complexity**  
+- **O(n)** for philosophers and forks.  
 
 ---
 
-### **Simulation Flow**
-
-1. **Initialization**: 
-   - Parse input arguments.
-   - Initialize mutexes and resources.
-   - Allocate memory for philosophers.
-
-2. **Threading**:
-   - Create a thread for each philosopher to handle their actions (`thread` function).
-   - Spawn a monitoring thread (`finishim`) for each philosopher to check if they have died.
-
-3. **Philosopher Actions**:
-   - **Pick Up Forks**: Use the odd/even strategy to avoid deadlocks.
-   - **Eat**: Simulate eating while updating the last meal time.
-   - **Sleep and Think**: Release forks and perform the respective actions.
-
-4. **Monitoring**:
-   - Each philosopher's death is checked by a monitoring thread using the `finishim` function.
-
-5. **Cleanup**:
-   - Join all threads.
-   - Destroy mutexes.
-   - Free allocated resources.
-
----
-
-### **Highlights of the Strategy**
-1. **Deadlock Avoidance**:
-   - The odd/even strategy ensures no two adjacent philosophers block each other indefinitely.
-2. **Race Condition Prevention**:
-   - Mutexes ensure that shared resources are accessed safely.
-3. **Scalable Design**:
-   - Supports any number of philosophers with minimal changes to the logic.
-
----
-
-## **Complexity Analysis**
-
-### **Time Complexity**
-- Picking up forks: **O(1)** (mutex lock/unlock).
-- Eating: **O(1)** (time simulation).
-- Sleeping/Thinking: **O(1)**.
-- Threading and initialization: **O(n)**, where `n` is the number of philosophers.
-
-### **Space Complexity**
-- Memory allocation for `n` philosophers: **O(n)**.
-- Mutex allocation: **O(n)**.
-
----
-
-### **Key Points of Success**
-- Efficient handling of concurrency using **mutex locks**.
-- Robust **edge case management** (e.g., single philosopher scenario).
-- Avoidance of deadlocks with a carefully crafted **fork-picking strategy**.
-
----
-
-## **Execution**
-To compile and run:
-1. **Compile**:
+1. **Compile**  
    ```bash
    make
 
+   ./philo <number_of_philosophers> <time_to_die> <time_to_eat> \
+        <time_to_sleep> [number_of_times_each_philosopher_must_eat]
 
-./philo <number_of_philosophers> <time_to_die> <time_to_eat> <time_to_sleep> [number_of_times_each_philosopher_must_eat]
 
-
-Author
 Van Tien BUI
-(vbui@student.42.fr, École 42 Paris)
+Email: vbui@student.42.fr
+École 42 Paris

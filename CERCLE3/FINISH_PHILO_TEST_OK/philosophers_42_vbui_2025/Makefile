@@ -1,29 +1,47 @@
-NAME		=	philo
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/01/23 15:00:00 by vbui              #+#    #+#              #
+#    Updated: 2025/01/23 03:57:24 by vbui             ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-HEADER		=	./include/
+NAME		= philo
 
-CC			=	gcc
+HEADER		= ./include
 
-CFLAGS		=	-Werror -Wall -Wextra -g -I $(HEADER) -pthread -O0  #ajout à enlever
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror -I $(HEADER) -pthread -O0
 
 SRCS		=	srcs/lib.c \
 				srcs/operator.c \
 				srcs/threading.c \
-				srcs/parsing_init.c \
+				srcs/parsing.c \
+				srcs/init.c \
 				srcs/main_utils.c \
 				srcs/main.c \
+				srcs/stop_operator.c \
+				srcs/finishim.c \
 
-OBJS		=	$(SRCS:.c=.o)
+OBJS		= $(SRCS:.c=.o)
 
-all			:	$(NAME)
+RM			= rm -rf
 
-$(NAME)		:	$(OBJS) $(HEADER)
-				$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+all: $(NAME)
 
-clean		:
-				rm -rf $(OBJS)
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-fclean		:	clean
-				rm -rf $(NAME)
+clean:
+	$(RM) $(OBJS)
 
-re			:	fclean all
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re

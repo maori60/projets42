@@ -6,120 +6,118 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:00:00 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/22 10:26:55 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/23 04:02:26 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** Ce fichier gère les threads des philosophes. Il inclut les fonctions pour :
-** - Vérifier si un philosophe meurt (finishim).
-** - Gérer les actions des philosophes dans les threads (thread).
-** - Créer les threads pour chaque philosophe (threading).
-*/
-
 #include "../include/philosophers.h"
 
-
-void *finishim(void *data)
+/*
+** handle_single_philo:
+** For one philosopher scenario: 
+** takes a fork, waits time_to_die, prints "died", stop=1.
+*/
+static void	handle_single_philo(t_phil *ph)
 {
-    t_phil *ph = (t_phil *)data;
-
-    if (!ph || !ph->pa)
-        return (NULL);
-
-    // Temporisation pour vérifier la mort après un délai suffisant
-    ft_usleep(ph->pa->die + 1);
-
-    // Vérification des conditions de mort
-    pthread_mutex_lock(&ph->pa->time_eat);
-    pthread_mutex_lock(&ph->pa->finish);
-
-    if (!ft_god_supervisor(ph, 0) && 
-        !ph->finish && 
-        (ft_timer() - ph->ms_eat) >= (long)(ph->pa->die))
-    {
-        pthread_mutex_unlock(&ph->pa->time_eat); // Libère avant de quitter
-        pthread_mutex_unlock(&ph->pa->finish);
-
-        // Signale que le philosophe est mort
-        pthread_mutex_lock(&ph->pa->write_mutex);
-        ft_status("died\n", ph);
-        pthread_mutex_unlock(&ph->pa->write_mutex);
-
-        // Déclenche l'arrêt global
-        ft_god_supervisor(ph, 1);
-        return (NULL);
-    }
-
-    // Déverrouille les mutex si aucune condition de mort n'est rencontrée
-    pthread_mutex_unlock(&ph->pa->finish);
-    pthread_mutex_unlock(&ph->pa->time_eat);
-
-    return (NULL);
+	ft_status("has taken the fork of death", ph);
+	ft_usleep(ph->pa->die);
+	ft_status("died", ph);
+	ft_god_supervisor(ph, 1);
 }
+
+/*
+** handle_meals:
+** 1) ft_operation => philosopher eats
+** 2) increments nb_eat, checks must_eat_count
+** 3) returns 1 if ph must exit, 0 otherwise
+*/
+static int	handle_meals(t_phil *ph)
+{
+	ft_operation(ph);
+	pthread_mutex_lock(&ph->meal_time_lock);
+	ph->nb_eat++;
+	if (ph->pa->m_eat != -1 && (int)ph->nb_eat >= ph->pa->m_eat)
+	{
+		ph->finish = 1;
+		pthread_mutex_unlock(&ph->meal_time_lock);
+		pthread_mutex_lock(&ph->pa->finish);
+		ph->pa->nb_p_finish++;
+		if (ph->pa->nb_p_finish == ph->pa->total)
+			ft_god_supervisor(ph, 2);
+		pthread_mutex_unlock(&ph->pa->finish);
+		return (1);
+	}
+	pthread_mutex_unlock(&ph->meal_time_lock);
+	return (0);
+}
+
+/*
+** thread:
+** Routine for each philosopher:
+** - if only 1 philosopher => handle_single_philo
+** - if id is even => small offset
+** - while !stop => handle_meals
+*/
 void	*thread(void *data)
 {
-t_phil					*ph;
+	t_phil	*ph;
 
 	ph = (t_phil *)data;
 	if (ph->pa->total == 1)
 	{
-		ft_status("has taken the fork of death\n", ph);
-        ft_usleep(ph->pa->die); // Le philosophe attend jusqu'à son time_to_die
-        ft_status("died\n", ph);
-        ft_god_supervisor(ph, 1); // Arrêt global de la simulation
-        return NULL;
+		handle_single_philo(ph);
+		return ((void *)0);
 	}
-
-	// if (ph->id % 2 == 0)
-	// 	ft_usleep(ph->pa->eat / 10); // fonction de base
-	// 	// usleep(900);
-	if (ph->pa->total % 2 == 0 && ph->id % 2 == 0)
+	if (ph->id % 2 == 0)
 		ft_usleep(ph->pa->eat / 10);
-
-		// pthread_create(&ph->thread_death_id, NULL, finishim, data);
-	if (pthread_create(&ph->thread_death_id, NULL, finishim, data) != 0)
-        {
-            fprintf(stderr, "Error creating thread\n");
-            ft_god_supervisor(ph, 1); // Arrêt global en cas d'erreur critique
-            return (NULL);
-        }
-    pthread_detach(ph->thread_death_id); // Libère la mémoire du thread une fois terminé
-
 	while (!ft_god_supervisor(ph, 0))
 	{
-			ft_operation(ph);
-		//pthread_detach(ph->thread_death_id);
-		if ((int)++ph->nb_eat == ph->pa->m_eat)
-		{
-			//pthread_mutex_lock(&ph->pa->finish);
-			ph->finish = 1;
-			ph->pa->nb_p_finish++;
-			if (ph->pa->nb_p_finish == ph->pa->total)
-			{
-				pthread_mutex_lock(&ph->pa->finish);
-				ft_god_supervisor(ph, 2);
-				pthread_mutex_unlock(&ph->pa->finish);
-			}
-		// 	pthread_mutex_unlock(&ph->pa->finish);
-		// 	return (NULL);
-		}
+		if (handle_meals(ph) == 1)
+			return ((void *)0);
 	}
-	return (NULL);
+	return ((void *)0);
 }
 
-int	threading(t_p *p)
+/*
+** create_philo_threads:
+** Creates thread (main) and finishim (in finishim.c) 
+** for each philosopher. Returns 1 on success, 0 if error.
+*/
+static int	create_philo_threads(t_p *p)
 {
 	int	i;
 
 	i = 0;
 	while (i < p->a.total)
 	{
-		p->ph[i].pa = &p->a;
-		if (pthread_create(&p->ph[i].thread_id, NULL, thread, &p->ph[i]) != 0)
+		if (pthread_create(&p->ph[i].thread_id, NULL,
+				thread, &p->ph[i]) != 0)
 			return (ft_byebye("Pthread did not return 0\n"));
+		if (pthread_create(&p->ph[i].thread_death_id, NULL,
+				finishim, &p->ph[i]) != 0)
+			return (ft_byebye("Pthread finishim did not return 0\n"));
 		i++;
 	}
-	// finishim(&p->ph[i]);
+	return (1);
+}
+
+/*
+** threading:
+** If total == 1 => only one thread. 
+** Otherwise => create two threads per philo:
+** - main: routine 'thread'
+** - death: routine 'finishim'
+*/
+int	threading(t_p *p)
+{
+	if (p->a.total == 1)
+	{
+		if (pthread_create(&p->ph[0].thread_id, NULL,
+				thread, &p->ph[0]) != 0)
+			return (ft_byebye("Pthread did not return 0\n"));
+		return (1);
+	}
+	if (!create_philo_threads(p))
+		return (0);
 	return (1);
 }

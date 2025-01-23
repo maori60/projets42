@@ -6,16 +6,9 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 20:46:13 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/15 13:57:42 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/23 02:00:54 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-** Ce fichier contient des fonctions utilitaires pour gérer la sortie standard,
-** telles que l'écriture de caractères, de chaînes de caractères et de nombres
-** dans un descripteur de fichier. Il inclut également une fonction pour calculer
-** la longueur d'une chaîne de caractères.
-*/
 
 #include "../include/philosophers.h"
 
