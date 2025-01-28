@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/23 15:00:00 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/23 04:03:48 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/28 12:19:25 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	*finishim(void *data)
 			return ((void *)0);
 		}
 		pthread_mutex_unlock(&ph->meal_time_lock);
-		usleep(1000);
+		usleep(1500);
 	}
 	return ((void *)0);
 }

@@ -6,7 +6,7 @@
 #    By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/23 15:00:00 by vbui              #+#    #+#              #
-#    Updated: 2025/01/23 03:57:24 by vbui             ###   ########.fr        #
+#    Updated: 2025/01/28 12:20:46 by vbui             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME		= philo
 HEADER		= ./include
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror -I $(HEADER) -pthread -O0
+CFLAGS		= -Wall -Wextra -Werror -I $(HEADER) -pthread
 
 SRCS		=	srcs/lib.c \
 				srcs/operator.c \
