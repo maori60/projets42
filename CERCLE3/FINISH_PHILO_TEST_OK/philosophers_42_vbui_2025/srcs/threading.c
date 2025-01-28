@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:00:00 by vbui              #+#    #+#             */
-/*   Updated: 2025/01/23 04:02:26 by vbui             ###   ########.fr       */
+/*   Updated: 2025/01/28 12:13:55 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void	handle_single_philo(t_phil *ph)
 */
 static int	handle_meals(t_phil *ph)
 {
+	if (ft_god_supervisor(ph, 0))
+		return (1);
 	ft_operation(ph);
 	pthread_mutex_lock(&ph->meal_time_lock);
 	ph->nb_eat++;
