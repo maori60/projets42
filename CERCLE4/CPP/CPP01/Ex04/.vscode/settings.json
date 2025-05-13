@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "cctype": "cpp",
+        "compare": "cpp",
+        "cstdint": "cpp",
+        "cwchar": "cpp",
+        "string": "cpp",
+        "algorithm": "cpp",
+        "memory_resource": "cpp",
+        "type_traits": "cpp",
+        "iosfwd": "cpp"
+    }
+}

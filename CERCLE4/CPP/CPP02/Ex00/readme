@@ -1,0 +1,95 @@
+# 🧮 CPP Module 02 - Exercise 00: Mon premier canon
+
+## 🎯 Objectif
+
+Dans cet exercice, tu dois créer une classe `Fixed` représentant un **nombre en virgule fixe**, un type souvent utilisé dans les domaines comme l’imagerie, le son ou les calculs embarqués.
+
+Tu vas aussi appliquer pour la première fois la **forme canonique de Coplien**, c’est-à-dire inclure les 4 méthodes essentielles pour gérer proprement les objets :
+
+- Constructeur par défaut  
+- Constructeur de recopie  
+- Opérateur d’affectation  
+- Destructeur  
+
+---
+
+## 📁 Fichiers à rendre
+
+- Makefile  
+- main.cpp  
+- Fixed.hpp  
+- Fixed.cpp
+
+---
+
+## 🧱 Structure de la classe `Fixed`
+
+### Attributs privés
+
+- `int _rawBits` : la valeur brute du nombre à virgule fixe
+- `static const int _fractionalBits = 8` : nombre de bits pour la partie fractionnaire
+
+### Méthodes publiques
+
+- `Fixed()` : constructeur par défaut (affiche "Default constructor called")
+- `Fixed(const Fixed&)` : constructeur de recopie (affiche "Copy constructor called")
+- `Fixed& operator=(const Fixed&)` : opérateur d’affectation (affiche "Copy assignment operator called")
+- `~Fixed()` : destructeur (affiche "Destructor called")
+- `int getRawBits(void) const` : affiche "getRawBits member function called" puis retourne `_rawBits`
+- `void setRawBits(int const raw)` : définit la valeur brute
+
+---
+
+## ⚙️ Compilation
+
+```bash
+make         # Compile le programme
+./fixed      # Exécute le binaire
+make clean   # Supprime les fichiers objets
+make fclean  # Supprime les .o et l'exécutable
+make re      # Recompile proprement
+
+
+🧪 Comportement attendu
+En exécutant :
+int main( void ) {
+    Fixed a;
+    Fixed b( a );
+    Fixed c;
+    c = b;
+    std::cout << a.getRawBits() << std::endl;
+    std::cout << b.getRawBits() << std::endl;
+    std::cout << c.getRawBits() << std::endl;
+    return 0;
+}
+
+La sortie doit être :
+Default constructor called
+Copy constructor called
+Copy assignment operator called
+getRawBits member function called
+0
+getRawBits member function called
+0
+getRawBits member function called
+0
+Destructor called
+Destructor called
+Destructor called
+
+
+
+| Concept                        | Présent |
+| ------------------------------ | ------- |
+| Forme canonique de Coplien     | ✅       |
+| Attribut statique constant     | ✅       |
+| Méthodes membres simples       | ✅       |
+| Encapsulation / accès contrôlé | ✅       |
+| Affichage dans chaque méthode  | ✅       |
+
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

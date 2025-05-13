@@ -1,0 +1,58 @@
+# 🧟‍♂️ CPP Module 01 - Exercise 00: BraiiiiiiinnnzzzZ
+
+## 🧠 Objectif
+
+Ce projet est une introduction à la programmation orientée objet en C++. Il te permet de créer une classe simple (`Zombie`), de manipuler les constructeurs et destructeurs, et d’apprendre à allouer un objet soit sur la pile (stack), soit sur le tas (heap). Il t’entraîne aussi à organiser ton code avec un Makefile propre.
+
+## 📁 Fichiers à rendre
+
+- Makefile  
+- main.cpp  
+- Zombie.hpp  
+- Zombie.cpp  
+- newZombie.cpp  
+- randomChump.cpp
+
+## 📦 Structure du projet
+
+ex00/
+├── Makefile
+├── main.cpp
+├── Zombie.hpp
+├── Zombie.cpp
+├── newZombie.cpp
+└── randomChump.cpp
+
+
+## 🔍 Description des fichiers
+
+- `Zombie.hpp` : Déclare la classe `Zombie` avec un attribut privé `name`, un constructeur, un destructeur, et la méthode `announce()`.
+- `Zombie.cpp` : Implémente le constructeur, le destructeur, et la fonction `announce()`.
+- `newZombie.cpp` : Crée un zombie sur le tas (`new`) et retourne un pointeur vers celui-ci.
+- `randomChump.cpp` : Crée un zombie sur la pile et le fait s’annoncer directement.
+- `main.cpp` : Fonction principale qui teste les deux fonctions précédentes (`newZombie` et `randomChump`), avec destruction explicite du zombie du tas.
+- `Makefile` : Compile automatiquement tous les fichiers `.cpp` et propose les règles classiques (`make`, `clean`, `fclean`, `re`).
+
+## ⚙️ Compilation
+
+Dans le terminal :
+
+```bash
+make        # Compile le projet
+./zombie    # Exéc
+
+
+| Critère      | Stack (`randomChump`)                | Heap (`newZombie`)                            |
+| ------------ | ------------------------------------ | --------------------------------------------- |
+| Allocation   | Automatique                          | Dynamique (`new`)                             |
+| Durée de vie | Temporaire (fin de la fonction)      | Manuelle (jusqu’à `delete`)                   |
+| Destruction  | Automatique                          | Manuelle (`delete` requis)                    |
+| Simplicité   | Simple, sans risque de fuite mémoire | Plus puissant mais nécessite plus d’attention |
+
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025
+

@@ -1,0 +1,36 @@
+🧠 Récapitulatif – C++ Module 01
+🔹 ex00 – BraiiiiiiinnnzzzZ
+Objectif :
+Apprendre à créer une classe simple (Zombie) avec un attribut privé, un constructeur, un destructeur, une méthode announce(), et distinguer allocation pile vs tas.
+✅ Concepts clés : classe, constructeur, destructeur, new/delete, Zombie* vs Zombie.
+
+🔹 ex01 – Moar brainz!
+Objectif :
+Créer un tableau dynamique de zombies avec new[], leur attribuer un nom, les faire s’annoncer, puis les détruire correctement.
+✅ Concepts clés : tableau dynamique d’objets, new[], delete[], boucle et méthode setName().
+
+🔹 ex02 – HI THIS IS BRAIN
+Objectif :
+Comprendre la différence entre une variable, un pointeur vers cette variable, et une référence à cette variable, en observant les adresses mémoire et les valeurs.
+✅ Concepts clés : &, *, std::string&, std::string*, affichage des adresses.
+
+🔹 ex03 – Unnecessary violence
+Objectif :
+Utiliser des objets comme attributs d'autres classes, en comprenant la différence entre les références obligatoires (HumanA toujours armé) et les pointeurs optionnels (HumanB peut être désarmé).
+✅ Concepts clés : composition d’objet, référence vs pointeur, méthode attack().
+
+🔹 ex04 – Sed is for losers
+Objectif :
+Lire un fichier, remplacer toutes les occurrences d’une chaîne s1 par s2 dans son contenu, puis écrire dans un nouveau fichier.
+✅ Concepts clés : std::ifstream, std::ofstream, std::string::find, gestion d’erreurs, pas de replace().
+
+🔹 ex05 – Harl 2.0
+Objectif :
+Utiliser un tableau de pointeurs vers fonctions membres pour appeler dynamiquement une méthode selon un niveau de plainte (DEBUG, INFO, etc.), sans if/else.
+✅ Concepts clés : pointeur sur méthode, void (Class::*)(), mapping string → méthode.
+
+🔹 ex06 – Harl filter
+Objectif :
+Filtrer les messages de Harl à partir d’un certain niveau avec un switch, en affichant tous les niveaux supérieurs.
+✅ Concepts clés : switch, cas enchaînés sans break, contrôle de flux basé sur une chaîne de niveau.
+

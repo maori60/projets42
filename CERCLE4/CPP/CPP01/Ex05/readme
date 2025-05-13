@@ -1,0 +1,86 @@
+# 🎙️ CPP Module 01 - Exercise 05: Harl 2.0
+
+## 🧠 Objectif
+
+Ce projet a pour but de manipuler les **pointeurs vers fonctions membres** en C++.  
+Tu dois implémenter une classe `Harl` qui peut se plaindre à différents niveaux de gravité : `"DEBUG"`, `"INFO"`, `"WARNING"`, `"ERROR"`.  
+Chaque niveau correspond à un message prédéfini.
+
+Le programme doit utiliser un tableau de pointeurs vers fonctions pour appeler la bonne méthode selon la chaîne passée, **sans `if/else` ou `switch`**.
+
+## 📁 Fichiers à rendre
+
+- Makefile  
+- main.cpp  
+- Harl.hpp  
+- Harl.cpp
+
+## 📦 Structure du projet
+
+ex05/
+├── Makefile
+├── main.cpp
+├── Harl.hpp
+└── Harl.cpp
+
+
+## 🔍 Description des composants
+
+### ✅ `Harl.hpp`
+
+Déclare la classe `Harl` contenant :
+- 4 méthodes privées : `debug()`, `info()`, `warning()`, `error()`
+- 1 méthode publique : `void complain(std::string level)`
+
+### ✅ `Harl.cpp`
+
+Implémente :
+- Les 4 messages prédéfinis
+- La méthode `complain()` qui associe chaque niveau à sa fonction via un tableau de pointeurs sur méthodes
+
+### ✅ `main.cpp`
+
+Teste tous les cas possibles :
+- `"DEBUG"`, `"INFO"`, `"WARNING"`, `"ERROR"` → messages affichés
+- Une valeur inconnue → message neutre affiché
+
+### ✅ `Makefile`
+
+Règles standard :
+- `make`, `clean`, `fclean`, `re`
+- Compilation avec `-Wall -Wextra -Werror -std=c++98`
+
+## 🧪 Exemple de sortie
+
+
+[ DEBUG ]
+I love having extra bacon for my 7XL-double-cheese-triple-pickle-special-ketchup burger. I really do!
+
+[ INFO ]
+I cannot believe adding extra bacon costs more money. You didn’t put enough bacon in my burger! If you did, I wouldn’t be asking for more!
+
+[ WARNING ]
+I think I deserve to have some extra bacon for free. I’ve been coming for years, whereas you started working here just last month.
+
+[ ERROR ]
+This is unacceptable! I want to speak to the manager now.
+
+[ Probably complaining about insignificant problems ]
+
+
+## 🧠 Concepts clés
+
+| Concept                           | Présent |
+|----------------------------------|---------|
+| Pointeurs vers fonctions membres | ✅       |
+| Tableaux de chaînes / fonctions  | ✅       |
+| Éviter `if` / `else`             | ✅       |
+| Respect du C++98                 | ✅       |
+
+## ✍️ Auteur
+
+Projet réalisé dans le cadre du cursus 42.  
+👤 **@vbui42Paris**  
+📍 42 Paris  
+📅 2025
+

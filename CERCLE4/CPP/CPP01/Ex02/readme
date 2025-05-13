@@ -1,0 +1,81 @@
+# 🧠 CPP Module 01 - Exercise 02: HI THIS IS BRAIN
+
+## 🎯 Objectif
+
+Cet exercice très simple introduit deux concepts fondamentaux en C++ :
+- Les **pointeurs**
+- Les **références**
+
+L’objectif est de **démystifier les références** et de comprendre la relation entre une variable, un pointeur et une référence en observant **leurs adresses mémoire** et **leurs valeurs**.
+
+## 📁 Fichiers à rendre
+
+- Makefile  
+- main.cpp
+
+## 📦 Structure du projet
+
+ex02/
+├── Makefile
+└── main.cpp
+
+
+## 🔍 Description des éléments
+
+- `main.cpp` : Contient une variable `std::string`, un pointeur vers cette string (`stringPTR`), et une référence à cette string (`stringREF`). Le programme affiche les adresses mémoire et les valeurs.
+- `Makefile` : Permet de compiler proprement avec les options standard de l’école 42.
+
+## 🧪 Comportement attendu
+
+Le programme doit afficher :
+
+1. L’adresse mémoire de la string  
+2. L’adresse contenue dans `stringPTR`  
+3. L’adresse de `stringREF`  
+4. La valeur de la string  
+5. La valeur pointée par `stringPTR`  
+6. La valeur référencée par `stringREF`
+
+## ✅ Exemple de sortie
+
+
+Adresse de la string : 0x7ffeea2b3b40
+Adresse via stringPTR : 0x7ffeea2b3b40
+Adresse via stringREF : 0x7ffeea2b3b40
+Valeur de la string : HI THIS IS BRAIN
+Valeur pointée par stringPTR : HI THIS IS BRAIN
+Valeur via stringREF : HI THIS IS BRAIN
+
+
+📌 Les trois adresses doivent être identiques  
+📌 Les trois valeurs doivent être identiques
+
+## ⚙️ Compilation
+
+Dans le dossier `ex02/`, lance :
+
+```bash
+make         # Compile le projet
+./brain      # Exécute le programme
+make clean   # Supprime les .o
+make fclean  # Supprime les .o + exécutable
+make re      # Recompile proprement
+
+
+🧠 Concepts clés
+Un pointeur (stringPTR) contient l’adresse de la variable et nécessite une déréférenciation avec * pour accéder à la valeur.
+
+Une référence (stringREF) agit comme un alias de la variable. Elle partage la même adresse et s’utilise comme une variable normale.
+
+⛔ Règles respectées
+Aucun printf, malloc, free ou using namespace std utilisé ✅
+
+Compatible avec -Wall -Wextra -Werror -std=c++98 ✅
+
+Code simple, clair, lisible ✅
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

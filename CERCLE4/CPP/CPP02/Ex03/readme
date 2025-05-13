@@ -1,0 +1,81 @@
+# 🧭 CPP Module 02 - Exercise 03: BSP
+
+## 🎯 Objectif
+
+Mettre en pratique ta classe `Fixed` pour effectuer des **calculs géométriques précis** avec des coordonnées 2D.  
+Tu dois :
+- Créer une classe `Point` en forme canonique (x, y constants de type `Fixed`)
+- Implémenter une fonction `bsp()` qui détermine si un point donné est **strictement à l’intérieur d’un triangle**
+
+---
+
+## 📁 Fichiers à rendre
+
+- Makefile  
+- main.cpp  
+- Fixed.hpp / Fixed.cpp  
+- Point.hpp / Point.cpp  
+- bsp.cpp
+
+---
+
+## 📐 Signature attendue
+
+```cpp
+bool bsp(Point const a, Point const b, Point const c, Point const point);
+
+Retourne true si point est strictement à l’intérieur du triangle formé par a, b, c.
+⚠️ Si le point est sur un sommet ou un côté, bsp() doit retourner false.
+
+🔧 Classe Point
+Attributs :
+const Fixed _x;
+const Fixed _y;
+
+
+Méthodes publiques :
+Constructeur par défaut (0, 0)
+
+Constructeur avec x, y en float
+
+Constructeur de copie
+
+Opérateur d’affectation (même si inutile car _x/_y sont const)
+
+Destructeur
+
+Getters : getX(), getY()
+
+🧪 Exemple de test
+Point a(0.0f, 0.0f);
+Point b(5.0f, 0.0f);
+Point c(2.5f, 5.0f);
+
+Point inside(2.5f, 2.0f);
+Point outside(5.0f, 5.0f);
+Point edge(2.5f, 0.0f);
+
+std::cout << bsp(a, b, c, inside);  // true
+std::cout << bsp(a, b, c, outside); // false
+std::cout << bsp(a, b, c, edge);    // false
+
+
+| Concept                              | Présent |
+| ------------------------------------ | ------- |
+| Coordonnées 2D avec précision fixe   | ✅       |
+| Classe avec attributs `const`        | ✅       |
+| Forme canonique de Coplien           | ✅       |
+| Calcul d’aire de triangle            | ✅       |
+| Comparaison de flottants via `Fixed` | ✅       |
+
+
+⚠️ Précisions
+Les coordonnées sont en virgule fixe, donc très précises.
+
+La somme des aires des sous-triangles doit être strictement égale à l’aire du triangle initial.
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

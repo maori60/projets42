@@ -1,0 +1,94 @@
+# 🛑 CPP Module 01 - Exercise 06: Harl filter
+
+## 🎯 Objectif
+
+Ce projet est une amélioration de l'exercice précédent `Harl 2.0`.  
+Tu dois créer un programme qui affiche **les plaintes de Harl à partir d'un niveau donné**, tout en utilisant un **switch** (pas de if/else pour enchaîner les niveaux).
+
+---
+
+## 📁 Fichiers à rendre
+
+- Makefile  
+- main.cpp  
+- Harl.hpp  
+- Harl.cpp
+
+---
+
+## 📦 Structure du projet
+
+ex06/
+├── Makefile
+├── main.cpp
+├── Harl.hpp
+└── Harl.cpp
+
+
+---
+
+## 🧠 Fonctionnement
+
+Le programme prend **un argument** :
+```bash
+./harlFilter <LEVEL>
+
+Le niveau (LEVEL) peut être : DEBUG, INFO, WARNING ou ERROR.
+
+Il affichera tous les messages depuis ce niveau jusqu’à ERROR, comme dans un logger classique.
+
+S’il ne reconnaît pas le niveau donné, il affiche :
+[ Probably complaining about insignificant problems ]
+
+
+📜 Exemple d'exécution
+
+$ ./harlFilter WARNING
+[ WARNING ]
+I think I deserve to have some extra bacon for free.
+I’ve been coming for years, whereas you started working here just last month.
+[ ERROR ]
+This is unacceptable! I want to speak to the manager now.
+
+$ ./harlFilter DEBUG
+[ DEBUG ]
+I love having extra bacon for my 7XL-double-cheese-triple-pickle-special-ketchup burger. I really do!
+[ INFO ]
+I cannot believe adding extra bacon costs more money...
+[ WARNING ]
+...
+[ ERROR ]
+...
+
+$ ./harlFilter nonsense
+[ Probably complaining about insignificant problems ]
+
+⚙️ Compilation
+make         # Compile le projet
+./harlFilter <LEVEL>  # Lance le programme
+make clean   # Supprime les fichiers objets
+make fclean  # Supprime objets + binaire
+make re      # Recompile proprement
+
+
+| Concept                          | Présent |
+| -------------------------------- | ------- |
+| `switch` statement               | ✅       |
+| Pointeurs vers fonctions membres | ✅       |
+| Tableaux de fonctions/chaînes    | ✅       |
+| Respect du standard C++98        | ✅       |
+
+⛔ Contraintes respectées
+Pas de if/else pour enchaîner les niveaux ✅
+
+Aucun printf, malloc, free, using namespace ✅
+
+Pas de STL interdit ✅
+
+-Wall -Wextra -Werror -std=c++98 utilisé ✅
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

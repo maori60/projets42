@@ -1,0 +1,99 @@
+# ⚙️ CPP Module 02 - Exercise 01: Premiers pas vers une classe utile
+
+## 🎯 Objectif
+
+Rendre la classe `Fixed` fonctionnelle et capable de stocker **des nombres réels** en utilisant la **représentation en virgule fixe**.  
+L'exercice introduit aussi la **conversion entre types** (`int` ↔ `float`), tout en conservant les exigences de la **forme canonique de Coplien**.
+
+---
+
+## 📁 Fichiers à rendre
+
+- Makefile  
+- main.cpp  
+- Fixed.hpp  
+- Fixed.cpp
+
+---
+
+## 🧱 Nouveaux éléments dans la classe `Fixed`
+
+### 🔸 Attributs
+
+- `int _rawBits` : valeur encodée du nombre
+- `static const int _fractionalBits = 8` : nombre de bits réservés à la fraction
+
+### 🔸 Constructeurs
+
+- `Fixed()` : valeur par défaut (0.0)
+- `Fixed(int)` : convertit un entier en virgule fixe
+- `Fixed(float)` : convertit un flottant en virgule fixe (utilise `roundf()`)
+- `Fixed(const Fixed&)` : constructeur de copie
+- `Fixed& operator=(const Fixed&)` : opérateur d’affectation
+- `~Fixed()` : destructeur
+
+### 🔸 Méthodes
+
+- `int getRawBits(void) const`
+- `void setRawBits(int const raw)`
+- `float toFloat(void) const` : convertit la valeur en `float`
+- `int toInt(void) const` : convertit la valeur en `int`
+
+### 🔸 Surcharge
+
+- `std::ostream& operator<<(std::ostream& out, const Fixed& f)` : affiche la valeur flottante via `<<`
+
+---
+
+## 🧪 Exemple d'exécution
+
+```cpp
+Fixed a;
+Fixed const b(10);
+Fixed const c(42.42f);
+Fixed const d(b);
+a = Fixed(1234.4321f);
+
+std::cout << "a is " << a << std::endl;
+std::cout << "b is " << b << std::endl;
+std::cout << "c is " << c << std::endl;
+std::cout << "d is " << d << std::endl;
+
+std::cout << "a is " << a.toInt() << " as integer" << std::endl;
+std::cout << "b is " << b.toInt() << " as integer" << std::endl;
+std::cout << "c is " << c.toInt() << " as integer" << std::endl;
+std::cout << "d is " << d.toInt() << " as integer" << std::endl;
+
+
+💡 Sortie attendue (approximative)
+Default constructor called
+Int constructor called
+Float constructor called
+Copy constructor called
+Float constructor called
+Copy assignment operator called
+a is 1234.43
+b is 10
+c is 42.4219
+d is 10
+a is 1234 as integer
+b is 10 as integer
+c is 42 as integer
+d is 10 as integer
+...
+
+
+| Concept                               | Présent |
+| ------------------------------------- | ------- |
+| Constructeurs surchargés              | ✅       |
+| Conversion float/int <-> virgule fixe | ✅       |
+| Forme canonique de Coplien            | ✅       |
+| Surcharge de l’opérateur `<<`         | ✅       |
+| roundf (autorisé)                     | ✅       |
+
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

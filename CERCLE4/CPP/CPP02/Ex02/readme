@@ -1,0 +1,96 @@
+# 🧮 CPP Module 02 - Exercise 02: Maintenant, on peut parler
+
+## 🎯 Objectif
+
+Faire de la classe `Fixed` un **type numérique complet** :
+- Capable de se comparer (`==`, `<`, `>=`, etc.)
+- Capable d’être manipulé mathématiquement (`+`, `-`, `*`, `/`)
+- Compatible avec les opérateurs `++`, `--`
+- Et offrant des fonctions `min()` et `max()` comme les types natifs
+
+---
+
+## 📁 Fichiers à rendre
+
+- Makefile  
+- main.cpp  
+- Fixed.hpp  
+- Fixed.cpp
+
+---
+
+## 🔧 Ajouts dans la classe `Fixed`
+
+### 🧮 Opérateurs de comparaison :
+```cpp
+bool operator>(const Fixed&) const;
+bool operator<(const Fixed&) const;
+bool operator>=(const Fixed&) const;
+bool operator<=(const Fixed&) const;
+bool operator==(const Fixed&) const;
+bool operator!=(const Fixed&) const;
+
+
+➕➖ Opérateurs arithmétiques :
+Fixed operator+(const Fixed&) const;
+Fixed operator-(const Fixed&) const;
+Fixed operator*(const Fixed&) const;
+Fixed operator/(const Fixed&) const;
+
+
+🔁 Incrémentation / décrémentation :
+Fixed& operator++();    // Pré-incrémentation
+Fixed operator++(int);  // Post-incrémentation
+Fixed& operator--();    // Pré-décrémentation
+Fixed operator--(int);  // Post-décrémentation
+
+
+🔢 Min / Max :
+static Fixed& min(Fixed&, Fixed&);
+static const Fixed& min(const Fixed&, const Fixed&);
+static Fixed& max(Fixed&, Fixed&);
+static const Fixed& max(const Fixed&, const Fixed&);
+
+
+🧪 Exemple de test
+Fixed a;
+Fixed const b(Fixed(5.05f) * Fixed(2));
+std::cout << a << std::endl;
+std::cout << ++a << std::endl;
+std::cout << a << std::endl;
+std::cout << a++ << std::endl;
+std::cout << a << std::endl;
+std::cout << b << std::endl;
+std::cout << Fixed::max(a, b) << std::endl;
+
+
+✅ Sortie attendue
+0
+0.00390625
+0.00390625
+0.00390625
+0.0078125
+10.1016
+10.1016
+
+
+| Concept                         | Appliqué |
+| ------------------------------- | -------- |
+| Surcharge opérateurs            | ✅        |
+| Comparaisons                    | ✅        |
+| Opérations arithmétiques        | ✅        |
+| Incrémentation / Décrémentation | ✅        |
+| Méthodes `min()` et `max()`     | ✅        |
+| Calculs en virgule fixe         | ✅        |
+
+
+⚠️ Remarque
+Division par 0 n’est pas gérée, un crash est acceptable selon le sujet.
+
+Toutes les conversions se basent sur toFloat() pour garder la précision.
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

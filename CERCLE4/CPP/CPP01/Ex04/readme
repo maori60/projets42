@@ -1,0 +1,81 @@
+# 📝 CPP Module 01 - Exercise 04: Sed is for losers
+
+## 🎯 Objectif
+
+Créer un programme qui simule le comportement d’un outil comme `sed`, sans utiliser `std::string::replace`.  
+Le programme doit :
+
+1. Prendre **trois arguments** :
+   - un fichier à lire (`filename`)
+   - une chaîne à chercher (`s1`)
+   - une chaîne de remplacement (`s2`)
+2. Lire le contenu de `filename`
+3. Remplacer **chaque occurrence** de `s1` par `s2`
+4. Écrire le résultat dans un nouveau fichier nommé : `filename.replace`
+
+## 📁 Fichiers à rendre
+
+- Makefile  
+- main.cpp  
+- Replacer.cpp  
+- Replacer.hpp
+
+## 📦 Structure du projet
+
+ex04/
+├── Makefile
+├── main.cpp
+├── Replacer.hpp
+└── Replacer.cpp
+
+
+## 🔍 Détail des composants
+
+- `main.cpp` : Gère les arguments, la lecture et l’écriture des fichiers, appelle la méthode `replaceAll()`.
+- `Replacer.hpp` : Contient la déclaration de la classe `Replacer`.
+- `Replacer.cpp` : Contient l’implémentation de `replaceAll()`, qui effectue la substitution sans `std::string::replace`.
+- `Makefile` : Automatisation de la compilation (`make`, `clean`, `fclean`, `re`).
+
+## ⚙️ Compilation
+
+Dans le dossier `ex04/`, lance :
+
+```bash
+make         # Compile le projet
+./replace file.txt s1 s2  # Lance le remplacement
+make clean   # Supprime les .o
+make fclean  # Supprime .o + exécutable
+make re      # Recompile proprement
+
+
+🧪 Exemple d’utilisation
+Contenu de file.txt :
+I like pizza. pizza is my favorite.
+
+
+Commande :
+./replace file.txt pizza sushi
+
+Créera file.txt.replace :
+I like sushi. sushi is my favorite.
+
+
+| Règle                                            | Respectée |
+| ------------------------------------------------ | --------- |
+| Aucun `std::string::replace`                     | ✅         |
+| Aucun usage de `printf`, `malloc`, `free`        | ✅         |
+| Pas de fonctions C (`fopen`, etc.)               | ✅         |
+| Utilisation de `std::ifstream` / `std::ofstream` | ✅         |
+| Gestion d'erreurs en cas de fichier introuvable  | ✅         |
+| Respect du standard `-std=c++98`                 | ✅         |
+
+📚 Remarques
+replaceAll() est une fonction statique dans la classe Replacer pour des raisons de simplicité : on ne crée pas d’objet inutile.
+
+La méthode évite std::string::replace en utilisant find(), append() et manipulation par indices.
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

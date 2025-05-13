@@ -1,0 +1,87 @@
+# 🪓 CPP Module 01 - Exercise 03: Unnecessary violence
+
+## 🧠 Objectif
+
+Ce projet a pour but d’illustrer deux façons différentes de gérer des références d’objet en C++, via deux classes : `HumanA` et `HumanB`. Tous deux possèdent un nom et une arme (`Weapon`) qu’ils peuvent utiliser pour attaquer.  
+La différence principale réside dans la **gestion de l'arme** :
+- `HumanA` reçoit une **référence constante vers une `Weapon`** dès sa création : il est **toujours armé**
+- `HumanB` peut exister sans arme, et **l’arme lui est attribuée plus tard via un pointeur**
+
+## 📁 Fichiers à rendre
+
+- Makefile  
+- main.cpp  
+- Weapon.{hpp, cpp}  
+- HumanA.{hpp, cpp}  
+- HumanB.{hpp, cpp}
+
+## 📦 Structure du projet
+
+ex03/
+├── Makefile
+├── main.cpp
+├── Weapon.hpp
+├── Weapon.cpp
+├── HumanA.hpp
+├── HumanA.cpp
+├── HumanB.hpp
+└── HumanB.cpp
+
+
+## 🔍 Description des classes
+
+### ✅ `Weapon`
+- Attribut : `std::string type` (privé)
+- Méthodes :
+  - `const std::string& getType() const` : retourne le type de l’arme
+  - `void setType(std::string)` : modifie le type de l’arme
+
+### ✅ `HumanA`
+- Possède une **référence vers une `Weapon`**
+- L’arme est fournie obligatoirement au moment de la construction
+- Méthode :
+  - `attack()` affiche : `<name> attacks with their <weapon type>`
+
+### ✅ `HumanB`
+- Possède un **pointeur vers une `Weapon`**
+- Peut être construit **sans arme**, puis l’arme est définie plus tard via `setWeapon()`
+- Méthode :
+  - `attack()` affiche :
+    - S’il a une arme : `<name> attacks with their <weapon type>`
+    - Sinon : `<name> has no weapon`
+
+## 🧪 Exemple de comportement
+
+Bob attacks with their crude spiked club
+Bob attacks with their some other type of club
+Jim has no weapon
+Jim attacks with their war axe
+Jim attacks with their shiny golden axe
+
+
+## ⚙️ Compilation
+
+Dans le dossier `ex03/`, exécute :
+
+```bash
+make         # Compile le projet
+./violence   # Exécute le binaire
+make clean   # Supprime les fichiers objets (.o)
+make fclean  # Supprime .o et le binaire
+make re      # Recompile tout proprement
+
+⛔ Règles respectées
+Aucun printf, malloc, free, using namespace ✅
+
+Compatible avec -Wall -Wextra -Werror -std=c++98 ✅
+
+Pas d’inclusion croisée ou redondante ✅
+
+Weapon utilisée via référence ou pointeur selon le besoin ✅
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025
+

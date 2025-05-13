@@ -1,0 +1,68 @@
+# 🧟‍♂️ CPP Module 01 - Exercise 01: Moar brainz!
+
+## 🧠 Objectif
+
+Ce projet approfondit la gestion dynamique de la mémoire en C++. Tu dois créer une **horde de zombies**, c’est-à-dire un tableau alloué dynamiquement contenant plusieurs objets `Zombie`. Chaque zombie de la horde doit pouvoir s’annoncer avec la méthode `announce()`.
+
+## 📁 Fichiers à rendre
+
+- Makefile  
+- main.cpp  
+- Zombie.hpp  
+- Zombie.cpp  
+- zombieHorde.cpp
+
+## 📦 Structure du projet
+
+ex01/
+├── Makefile
+├── main.cpp
+├── Zombie.hpp
+├── Zombie.cpp
+└── zombieHorde.cpp
+
+
+## 🔍 Description des fichiers
+
+- `Zombie.hpp` : Déclare la classe `Zombie`, son constructeur par défaut, son destructeur, la méthode `announce()` et un setter `setName()`.
+- `Zombie.cpp` : Implémente les méthodes de la classe.
+- `zombieHorde.cpp` : Contient la fonction `Zombie* zombieHorde(int N, std::string name)` qui crée un tableau dynamique de zombies, initialise leur nom, et retourne un pointeur vers le premier élément.
+- `main.cpp` : Teste la fonction `zombieHorde()` et appelle `announce()` pour chaque zombie, suivi d’un `delete[]` pour libérer la mémoire.
+- `Makefile` : Automatisation de la compilation avec les règles standards `make`, `clean`, `fclean`, `re`.
+
+## ⚙️ Compilation
+
+Dans un terminal, dans le dossier `ex01/` :
+
+```bash
+make         # Compile le projet
+./zombieHorde  # Exécute le binaire
+make clean   # Supprime les fichiers objets (.o)
+make fclean  # Supprime les fichiers objets + l’exécutable
+make re      # Recompile proprement
+
+
+🧠 Rappel - new[] vs delete[]
+Quand on utilise new[] pour créer un tableau dynamique, on doit obligatoirement utiliser delete[] pour libérer correctement la mémoire :
+
+Zombie* horde = new Zombie[N];
+...
+delete[] horde;
+
+
+Oublier delete[] entraîne une fuite mémoire, ce qui est sanctionné.
+
+🧹 Bonnes pratiques
+Ne jamais appeler announce() sur un pointeur NULL
+
+Vérifier que N > 0 dans zombieHorde
+
+Ne jamais oublier delete[] si new[] est utilisé
+
+Pas de printf, malloc, free ou using namespace std
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025
