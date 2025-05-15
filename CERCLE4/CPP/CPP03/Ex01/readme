@@ -1,0 +1,95 @@
+# 🤖 CPP Module 03 - Exercise 01: Serena, my love!
+
+## 🎯 Objectif
+
+Créer une nouvelle classe `ScavTrap` qui hérite de `ClapTrap`, avec des valeurs d’attributs différentes et une méthode spéciale `guardGate()`.
+
+---
+
+## 📁 Fichiers à rendre
+
+- `ClapTrap.hpp / ClapTrap.cpp`
+- `ScavTrap.hpp / ScavTrap.cpp`
+- `main.cpp`
+- `Makefile`
+
+---
+
+## 🧱 Attributs (hérités de ClapTrap)
+
+| Attribut        | Valeur pour `ScavTrap` |
+|------------------|------------------------|
+| `_hitPoints`     | 100                    |
+| `_energyPoints`  | 50                     |
+| `_attackDamage`  | 20                     |
+
+---
+
+## 🧩 Méthodes spécifiques
+
+### Constructeurs, opérateur d’affectation et destructeur
+Ils doivent **afficher des messages différents** de ceux de `ClapTrap`, mais respecter l’ordre de construction/déconstruction (ClapTrap → ScavTrap à la construction ; inversement à la destruction).
+
+### Surcharge de `attack()`
+Affiche un message propre à ScavTrap.
+
+### Nouvelle méthode
+
+```cpp
+void guardGate();
+
+
+Affiche un message :
+ScavTrap <name> is now in Gate keeper mode!
+
+🧪 Exemple de test (main.cpp)
+
+ScavTrap sc("Serena");
+
+sc.attack("the intruder");
+sc.takeDamage(40);
+sc.beRepaired(20);
+sc.guardGate();
+
+ScavTrap clone(sc);
+clone.attack("another target");
+
+ScavTrap assigned("Temp");
+assigned = sc;
+assigned.guardGate();
+
+
+✅ Résultat attendu (extrait)
+
+ClapTrap Serena constructed!
+ScavTrap Serena constructed with special attributes!
+ScavTrap Serena launches a furious attack on the intruder, dealing 20 points of damage!
+ClapTrap Serena takes 40 points of damage! Remaining HP: 60
+ClapTrap Serena repairs itself for 20 hit points! Total HP: 80
+ScavTrap Serena is now in Gate keeper mode!
+...
+ScavTrap Serena destroyed!
+ClapTrap Serena destroyed!
+
+
+| Concept                           | Appliqué |
+| --------------------------------- | -------- |
+| Héritage public                   | ✅        |
+| Surcharge de méthodes             | ✅        |
+| Attributs protégés (`protected`)  | ✅        |
+| Ordre de construction/destruction | ✅        |
+| Respect de la forme canonique     | ✅        |
+
+
+🛠️ Compilation
+make         # Compile le binaire
+./scavtrap   # Lance les tests
+make clean   # Supprime les .o
+make fclean  # Supprime tout
+make re      # Clean + compile
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

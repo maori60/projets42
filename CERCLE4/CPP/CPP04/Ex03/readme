@@ -1,0 +1,133 @@
+# ✨ CPP Module 04 - Exercise 03: Interface & Recap
+
+## 🎯 Objectif
+
+Ce projet est une **synthèse complète** du module C++04.  
+Il te fait implémenter des interfaces, du polymorphisme, des classes concrètes et des gestions de mémoire avec `new`, `delete` et **copie profonde**.
+
+---
+
+## 📁 Fichiers à rendre
+
+- `AMateria.{hpp,cpp}`
+- `Ice.{hpp,cpp}`, `Cure.{hpp,cpp}`
+- `ICharacter.hpp`, `Character.{hpp,cpp}`
+- `IMateriaSource.hpp`, `MateriaSource.{hpp,cpp}`
+- `main.cpp`
+- `Makefile`
+
+---
+
+## 🔧 Architecture des classes
+
+### 🔹 AMateria (abstraite)
+```cpp
+class AMateria {
+protected:
+    std::string _type;
+
+public:
+    AMateria(std::string const & type);
+    std::string const & getType() const;
+    virtual AMateria* clone() const = 0;
+    virtual void use(ICharacter& target);
+};
+
+❄️ Ice / 💉 Cure
+Héritent de AMateria, redéfinissent :
+
+clone() → retourne new Ice() / new Cure()
+
+use() :
+
+"* shoots an ice bolt at <name> *"
+
+"* heals <name>'s wounds *"
+
+🧍 ICharacter (interface)
+class ICharacter {
+public:
+    virtual std::string const & getName() const = 0;
+    virtual void equip(AMateria* m) = 0;
+    virtual void unequip(int idx) = 0;
+    virtual void use(int idx, ICharacter& target) = 0;
+};
+
+
+👤 Character (implémentation)
+Nom, inventaire (4 AMateria*)
+
+equip() : ajoute au 1er slot libre
+
+unequip(idx) : met à nullptr (ne delete pas)
+
+use(idx, target) : appelle materia->use(target)
+
+Copie profonde (constructeur/affectation)
+
+Destructeur : libère toutes les Materias
+
+
+
+🧪 IMateriaSource / MateriaSource
+class IMateriaSource {
+public:
+    virtual void learnMateria(AMateria*) = 0;
+    virtual AMateria* createMateria(std::string const & type) = 0;
+};
+
+
+learnMateria() : stocke jusqu'à 4 modèles
+
+createMateria(type) : retourne un clone du modèle correspondant
+
+
+🧪 Exemple de test
+IMateriaSource* src = new MateriaSource();
+src->learnMateria(new Ice());
+src->learnMateria(new Cure());
+
+ICharacter* me = new Character("me");
+AMateria* tmp;
+
+tmp = src->createMateria("ice");
+me->equip(tmp);
+tmp = src->createMateria("cure");
+me->equip(tmp);
+
+ICharacter* bob = new Character("bob");
+me->use(0, *bob);
+me->use(1, *bob);
+
+delete bob;
+delete me;
+delete src;
+
+✅ Résultat attendu
+* shoots an ice bolt at bob *
+* heals bob's wounds *
+
+
+| Concept                         | Appliqué |
+| ------------------------------- | -------- |
+| Interface (classe abstraite)    | ✅        |
+| Héritage polymorphe             | ✅        |
+| Clonage (`clone() const`)       | ✅        |
+| Inventaire avec gestion mémoire | ✅        |
+| Deep copy                       | ✅        |
+| Séparation des responsabilités  | ✅        |
+
+
+🛠️ Compilation
+make         # Compile le projet
+./materia    # Exécute les tests
+make clean   # Supprime les .o
+make fclean  # Supprime les .o + binaire
+make re      # Recompile tout
+
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

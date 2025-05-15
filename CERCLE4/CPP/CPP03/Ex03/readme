@@ -1,0 +1,100 @@
+# 💎 CPP Module 03 - Exercise 03: Now it’s weird!
+
+## 🎯 Objectif
+
+Créer une classe `DiamondTrap` qui hérite **à la fois** de `ScavTrap` et `FragTrap`.  
+Ce monstre d’héritage multiple doit démontrer ta capacité à :
+- Gérer des attributs et méthodes hérités de plusieurs classes
+- Éviter les conflits de noms
+- Respecter les chaînes de construction/destruction
+
+---
+
+## 📁 Fichiers à rendre
+
+- `ClapTrap.hpp / .cpp`
+- `ScavTrap.hpp / .cpp`
+- `FragTrap.hpp / .cpp`
+- `DiamondTrap.hpp / .cpp`
+- `main.cpp`
+- `Makefile`
+
+---
+
+## 🧬 Héritage multiple
+
+```cpp
+class DiamondTrap : public FragTrap, public ScavTrap {};
+
+DiamondTrap hérite :
+
+Des hitPoints et attackDamage de FragTrap
+
+Des energyPoints de ScavTrap
+
+De la méthode attack() de ScavTrap
+
+Et ajoute un attribut privé :
+std::string _name; // Son propre nom
+
+
+Et initialise le nom de base ClapTrap::_name avec :
+ClapTrap(name + "_clap_name");
+
+🧩 Méthodes spécifiques
+void whoAmI();
+
+Affiche :
+I am <DiamondTrap::_name>, and my ClapTrap name is <ClapTrap::_name>
+
+Redéfinition de la méthode attack() → celle de ScavTrap.
+
+🧪 Exemple de test (main.cpp)
+DiamondTrap d("Diana");
+
+d.attack("a rock");
+d.takeDamage(42);
+d.beRepaired(21);
+d.highFivesGuys();
+d.guardGate();
+d.whoAmI();
+
+
+✅ Résultat attendu (extrait)
+ClapTrap Diana_clap_name constructed!
+ScavTrap Diana constructed!
+FragTrap Diana constructed!
+DiamondTrap Diana assembled!
+ScavTrap Diana attacks a rock, causing 30 points of damage!
+ClapTrap Diana_clap_name takes 42 points of damage! Remaining HP: 58
+ClapTrap Diana_clap_name repairs itself for 21 hit points! Total HP: 79
+FragTrap Diana requests a high five! ✋
+ScavTrap Diana is now in Gate keeper mode!
+I am Diana, and my ClapTrap name is Diana_clap_name
+DiamondTrap Diana dismantled!
+FragTrap Diana destroyed!
+ScavTrap Diana destroyed!
+ClapTrap Diana_clap_name destroyed!
+
+
+| Concept                                   | Présent |
+| ----------------------------------------- | ------- |
+| Héritage multiple (`virtual`)             | ✅       |
+| Construction avec résolution des conflits | ✅       |
+| Redéfinition de méthodes                  | ✅       |
+| Appel explicite de classes de base        | ✅       |
+| Attribut privé masquant un héritage       | ✅       |
+
+
+🛠️ Compilation
+make         # Compile le projet
+./diamondtrap
+make clean   # Supprime les .o
+make fclean  # Supprime tout
+make re      # Clean + recompile
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

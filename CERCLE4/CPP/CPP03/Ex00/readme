@@ -1,0 +1,98 @@
+# 🤖 CPP Module 03 - Exercise 00: Aaaaand... OPEN!
+
+## 🎯 Objectif
+
+Créer une première classe orientée "combat" nommée `ClapTrap`, avec des points de vie, de l’énergie, des attaques et des réparations.
+
+L’objectif est d’appliquer la **forme canonique de Coplien** sur une classe "utile", avec une logique métier simple (et des messages à l’écran pour tout).
+
+---
+
+## 📁 Fichiers à rendre
+
+- `Makefile`  
+- `main.cpp`  
+- `ClapTrap.hpp`  
+- `ClapTrap.cpp`
+
+---
+
+## 🧱 Attributs privés de `ClapTrap`
+
+| Nom           | Type        | Valeur par défaut | Description                     |
+|---------------|-------------|-------------------|---------------------------------|
+| `_name`       | `std::string` | passé au constructeur | Nom du robot                   |
+| `_hitPoints`  | `int`       | 10                | Points de vie                   |
+| `_energyPoints` | `int`     | 10                | Points d’énergie                |
+| `_attackDamage` | `int`     | 0                 | Dégâts infligés à l’attaque     |
+
+---
+
+## 🧩 Méthodes publiques
+
+- `ClapTrap(std::string name)`  
+- `ClapTrap(const ClapTrap&)`  
+- `ClapTrap& operator=(const ClapTrap&)`  
+- `~ClapTrap()`  
+
+- `void attack(const std::string& target);`  
+- `void takeDamage(unsigned int amount);`  
+- `void beRepaired(unsigned int amount);`  
+
+Chaque méthode affiche un **message clair** à chaque appel (constructeur, destructeur, attaque, réparation, etc.)
+
+---
+
+## ⚔️ Règles de combat
+
+- Une **attaque** :
+  - Ne peut se faire que si `_energyPoints > 0` et `_hitPoints > 0`
+  - Coûte 1 point d’énergie
+  - Affiche un message
+
+- Une **réparation** :
+  - Ne peut se faire que si `_energyPoints > 0` et `_hitPoints > 0`
+  - Coûte 1 point d’énergie
+  - Rend des points de vie
+  - Affiche un message
+
+- `takeDamage()` réduit uniquement les `hitPoints`, sans effet sur l’énergie
+
+---
+
+## 🧪 Exemple de test
+
+```cpp
+ClapTrap john("John");
+
+john.attack("a tree");
+john.takeDamage(5);
+john.beRepaired(3);
+john.attack("Jane");
+john.takeDamage(8);
+john.beRepaired(4);
+
+
+| Concept                           | Présent |
+| --------------------------------- | ------- |
+| Forme canonique de Coplien        | ✅       |
+| Encapsulation                     | ✅       |
+| Constructeur avec paramètre       | ✅       |
+| Surcharge opérateur d’affectation | ✅       |
+| Logique conditionnelle simple     | ✅       |
+| Messages d’état / debug           | ✅       |
+
+
+Compilation :
+
+make         # Compile le binaire
+./claptrap   # Lance les tests
+make clean   # Supprime les .o
+make fclean  # Supprime tout
+make re      # Clean + compile
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

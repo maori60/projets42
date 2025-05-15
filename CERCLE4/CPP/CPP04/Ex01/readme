@@ -1,0 +1,93 @@
+# 🧠 CPP Module 04 - Exercise 01 : Je ne veux pas brûler le monde
+
+## 🎯 Objectif
+
+Implémenter une architecture orientée objet solide avec :
+- Gestion **de la mémoire dynamique** (`new` / `delete`)
+- Classe `Brain` interne à `Dog` et `Cat`
+- Copie **profonde** (deep copy) avec opérateurs `=` et constructeurs de copie
+- Destructeurs qui libèrent correctement la mémoire
+- Absence totale de **memory leaks**
+
+---
+
+## 📁 Fichiers à rendre
+
+- Tous les fichiers de l’exercice 00
+- `Brain.hpp / Brain.cpp`
+- Modifications de `Dog`, `Cat` pour intégrer `Brain*`
+- `main.cpp` (tests)
+- `Makefile`
+
+---
+
+## 🧠 Structure des classes
+
+### 🐾 Animal (classe de base)
+- Attribut : `std::string type`
+- Méthodes :
+  - `makeSound()` (virtuel)
+  - `getType() const`
+
+### 🐶 Dog
+- Attribut privé : `Brain* brain`
+- Alloue un Brain avec `new Brain()` dans le constructeur
+- Le libère avec `delete` dans le destructeur
+- Deep copy dans :
+  - Constructeur de copie
+  - Surcharge de l’opérateur `=`
+
+### 🐱 Cat
+- Même logique que `Dog` avec son propre `Brain`
+
+### 🧠 Brain
+- Contient : `std::string ideas[100]`
+- Méthodes : `setIdea()`, `getIdea()`
+- Gère une **copie profonde** dans son constructeur et opérateur `=`
+
+---
+
+## 🧪 Exemple de test (`main.cpp`)
+
+```cpp
+const Animal* j = new Dog();
+const Animal* i = new Cat();
+delete j; // Pas de fuite mémoire
+delete i;
+
+Animal* zoo[4];
+for (int i = 0; i < 2; i++) zoo[i] = new Dog();
+for (int i = 2; i < 4; i++) zoo[i] = new Cat();
+for (int i = 0; i < 4; i++) delete zoo[i];
+
+Dog basic;
+basic.setIdea(0, "Catch the ball!");
+Dog copy = basic;
+basic.setIdea(0, "Dig a hole!");
+std::cout << basic.getIdea(0) << std::endl;  // Dig a hole!
+std::cout << copy.getIdea(0) << std::endl;   // Catch the ball!
+
+
+| Concept                    | Appliqué |
+| -------------------------- | -------- |
+| Héritage                   | ✅        |
+| Composition (Brain\*)      | ✅        |
+| `new` / `delete`           | ✅        |
+| Copie profonde             | ✅        |
+| Gestion mémoire sans fuite | ✅        |
+| Surcharge opérateur `=`    | ✅        |
+| Constructeur de recopie    | ✅        |
+
+🛠️ Compilation
+make         # Compile le projet
+./brain      # Lance les tests
+make clean   # Supprime les fichiers .o
+make fclean  # Supprime tout (binaire + objets)
+make re      # Recompile tout
+
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

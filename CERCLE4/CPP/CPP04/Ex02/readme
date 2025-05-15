@@ -1,0 +1,95 @@
+# 🧬 CPP Module 04 - Exercise 02 : Classe abstraite
+
+## 🎯 Objectif
+
+Ce projet introduit les **classes abstraites** en C++.  
+Il s’agit d’empêcher l’instanciation de la classe `Animal`, qui ne doit servir que de **classe de base polymorphe**.
+
+---
+
+## 📁 Fichiers à rendre
+
+- Tous les fichiers de l’exercice 01 :
+  - `Animal.hpp / Animal.cpp` (modifié pour devenir abstraite)
+  - `Dog.hpp / Dog.cpp`
+  - `Cat.hpp / Cat.cpp`
+  - `Brain.hpp / Brain.cpp`
+- `main.cpp`
+- `Makefile`
+
+---
+
+## ⚙️ Modifications principales
+
+### 🔸 Animal devient **classe abstraite**
+
+```cpp
+virtual void makeSound() const = 0;
+
+
+Cela rend Animal non instanciable :
+Animal a;                // ❌ erreur de compilation
+Animal* a = new Animal(); // ❌ erreur de compilation
+
+Mais tu peux l’utiliser comme type de base polymorphe :
+Animal* a = new Dog(); // ✅
+
+📦 Fonctionnalités conservées
+Dog et Cat possèdent un Brain* dynamique
+
+Constructeur de copie, opérateur =, destructeur → copie profonde
+
+Aucun memory leak
+
+makeSound() spécifique à chaque classe
+
+Test de tableau de Animal*, supprimés via delete
+
+🧪 Exemple de test
+const Animal* j = new Dog();
+const Animal* i = new Cat();
+
+j->makeSound(); // Woof!
+i->makeSound(); // Meow!
+
+delete j;
+delete i;
+
+Animal* zoo[4];
+for (int i = 0; i < 2; i++) zoo[i] = new Dog();
+for (int i = 2; i < 4; i++) zoo[i] = new Cat();
+for (int i = 0; i < 4; i++) zoo[i]->makeSound();
+for (int i = 0; i < 4; i++) delete zoo[i];
+
+Dog basic;
+basic.setIdea(0, "Hunt the intruder!");
+Dog copy = basic;
+basic.setIdea(0, "Protect the territory!");
+
+std::cout << basic.getIdea(0) << std::endl; // Protect the territory!
+std::cout << copy.getIdea(0) << std::endl;  // Hunt the intruder!
+
+
+| Concept                       | Présent |
+| ----------------------------- | ------- |
+| Classe abstraite (`= 0`)      | ✅       |
+| Héritage & polymorphisme      | ✅       |
+| Mémoire dynamique             | ✅       |
+| Copie profonde (`Brain*`)     | ✅       |
+| Composition (`Brain`)         | ✅       |
+| Destruction propre (`delete`) | ✅       |
+
+
+🛠️ Compilation
+make         # Compile le projet
+./animal_abstract
+make clean   # Supprime les fichiers objets
+make fclean  # Supprime tout (objets + binaire)
+make re      # Clean + compile
+
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

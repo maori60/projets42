@@ -1,0 +1,95 @@
+# 🤖 CPP Module 03 - Exercise 02: Repetitive work
+
+## 🎯 Objectif
+
+Créer une nouvelle classe `FragTrap` dérivée de `ClapTrap`, avec des valeurs d'attributs différentes et une méthode spéciale `highFivesGuys()`.
+
+Ce robot, encore plus puissant, doit démontrer l’utilisation de l’héritage simple, de la surcharge de méthode, et d’un comportement spécifique.
+
+---
+
+## 📁 Fichiers à rendre
+
+- `ClapTrap.hpp / ClapTrap.cpp`  
+- `FragTrap.hpp / FragTrap.cpp`  
+- `main.cpp`  
+- `Makefile`
+
+---
+
+## 🧱 Attributs (hérités de ClapTrap, mais modifiés dans FragTrap)
+
+| Attribut        | Valeur pour `FragTrap` |
+|------------------|------------------------|
+| `_hitPoints`     | 100                    |
+| `_energyPoints`  | 100                    |
+| `_attackDamage`  | 30                     |
+
+---
+
+## 🧩 Méthodes spécifiques
+
+### Constructeurs, opérateur d’affectation et destructeur
+Ils doivent :
+- Afficher des messages différents de ceux de `ClapTrap`
+- Montrer la **chaîne de construction** (`ClapTrap` → `FragTrap`) et de **destruction inverse**
+
+### Surcharge de `attack()`
+Affiche un message propre à FragTrap, différent de celui de ClapTrap.
+
+### Nouvelle méthode
+
+```cpp
+void highFivesGuys(void);
+
+
+Affiche un message positif du style :
+FragTrap <name> requests a high five! ✋
+
+🧪 Exemple de test (main.cpp)
+FragTrap ft("Fraggie");
+
+ft.attack("a tree");
+ft.takeDamage(40);
+ft.beRepaired(20);
+ft.highFivesGuys();
+
+FragTrap copy(ft);
+copy.attack("another enemy");
+
+FragTrap assigned("Placeholder");
+assigned = ft;
+assigned.highFivesGuys();
+
+
+✅ Résultat attendu (extrait)
+ClapTrap Fraggie constructed!
+FragTrap Fraggie constructed with full energy and damage!
+FragTrap Fraggie launches a mighty attack on a tree, dealing 30 damage!
+ClapTrap Fraggie takes 40 points of damage! Remaining HP: 60
+ClapTrap Fraggie repairs itself for 20 hit points! Total HP: 80
+FragTrap Fraggie requests a high five! ✋
+...
+FragTrap Fraggie destroyed!
+ClapTrap Fraggie destroyed!
+
+| Concept                             | Présent |
+| ----------------------------------- | ------- |
+| Héritage public                     | ✅       |
+| Redéfinition de méthode (`attack`)  | ✅       |
+| Constructeurs/détruction en chaîne  | ✅       |
+| Attributs hérités modifiables       | ✅       |
+| Comportement spécifique (high five) | ✅       |
+
+🛠️ Compilation
+make         # Compile le binaire
+./fragtrap   # Lance les tests
+make clean   # Supprime les .o
+make fclean  # Supprime tout
+make re      # Clean + compile
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025

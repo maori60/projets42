@@ -1,0 +1,95 @@
+# 🐾 CPP Module 04 - Exercise 00: Polymorphisme
+
+## 🎯 Objectif
+
+Ce projet introduit le **polymorphisme** en C++ via l’utilisation des **fonctions virtuelles**.  
+Tu dois comprendre la différence entre un appel virtuel et un appel non virtuel, en manipulant des pointeurs de classe de base.
+
+---
+
+## 📁 Fichiers à rendre
+
+- `Animal.hpp / Animal.cpp`
+- `Dog.hpp / Dog.cpp`
+- `Cat.hpp / Cat.cpp`
+- `WrongAnimal.hpp / WrongAnimal.cpp`
+- `WrongCat.hpp / WrongCat.cpp`
+- `main.cpp`
+- `Makefile`
+
+---
+
+## 🧱 Structure des classes
+
+### 🔷 Animal (classe de base)
+- Attribut protégé : `std::string type`
+- Méthodes :
+  - `virtual void makeSound() const` → 🗣️ (son générique)
+  - `std::string getType() const`
+
+### 🐶 Dog (hérite d'Animal)
+- Initialise `type` à `"Dog"`
+- Surcharge `makeSound()` → affiche `"Woof! 🐶"`
+
+### 🐱 Cat (hérite d'Animal)
+- Initialise `type` à `"Cat"`
+- Surcharge `makeSound()` → affiche `"Meow! 🐱"`
+
+---
+
+## ❌ Partie Wrong (sans virtual)
+
+### ❌ WrongAnimal
+- `void makeSound() const` (non virtual)
+- Utilisé pour illustrer le **non-polymorphisme**
+
+### ❌ WrongCat
+- Hérite de `WrongAnimal`
+- Redéfinit `makeSound()` mais ne sera pas appelée via un pointeur `WrongAnimal*`
+
+---
+
+## 🧪 Exemple de test (`main.cpp`)
+
+```cpp
+const Animal* meta = new Animal();
+const Animal* j = new Dog();
+const Animal* i = new Cat();
+
+std::cout << j->getType() << std::endl;
+std::cout << i->getType() << std::endl;
+
+i->makeSound(); // Meow
+j->makeSound(); // Woof
+meta->makeSound(); // Generic
+
+delete meta;
+delete j;
+delete i;
+
+const WrongAnimal* wrong = new WrongCat();
+wrong->makeSound(); // ❌ Ne fait PAS "Meow"
+delete wrong;
+
+| Concept                          | Appliqué |
+| -------------------------------- | -------- |
+| Héritage                         | ✅        |
+| Constructeurs/dés. personnalisés | ✅        |
+| Redéfinition (`override`)        | ✅        |
+| Virtual / Non-virtual            | ✅        |
+| Surcharge d’opérateurs           | ✅        |
+| Appels via pointeurs de base     | ✅        |
+
+
+🛠️ Compilation
+make         # Compile le projet
+./animal     # Exécute le test
+make clean   # Supprime les .o
+make fclean  # Supprime les .o + binaire
+make re      # Clean + recompile
+
+✍️ Auteur
+Projet réalisé dans le cadre du cursus 42.
+👤 @vbui42Paris
+📍 42 Paris
+📅 2025
