@@ -6,7 +6,7 @@
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:13:50 by vbui              #+#    #+#             */
-/*   Updated: 2025/02/04 10:15:09 by vbui             ###   ########.fr       */
+/*   Updated: 2025/06/11 19:17:46 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,16 @@ void PhoneBook::addContact() {
     contacts[oldest].setContact();
     std::cout << "Contact ajouté à l'index : " << oldest << std::endl;
 
-    if (oldest < 7) {  // ✅ On augmente `oldest` tant qu'il est inférieur à 7
-        oldest++;
-    } else {  // ✅ Quand `oldest` atteint 7, on ne l'augmente plus (remplace toujours `7`)
-        std::cout << "⚠️ Liste pleine ! Le prochain contact remplacera l'index 7." << std::endl;
-    }
+    oldest = (oldest + 1) % 8;  // Tourne en boucle de 0 à 7
 
-    if (count < 8) {  // ✅ On met à jour `count`, mais il ne dépasse jamais 8
+    if (count < 8) {
         count++;
     }
 
     std::cout << "Prochain contact remplacera l'index : " << oldest << std::endl;
     std::cout << "Nombre total de contacts enregistrés : " << count << std::endl;
 }
+
 
 
 void PhoneBook::searchContact() const 

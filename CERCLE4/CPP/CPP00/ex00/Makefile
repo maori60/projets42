@@ -3,30 +3,32 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: student42                                    +#+  +:+       +#+         #
+#    By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/13                               #+#    #+#              #
-#    Updated: 2025/05/13                               ###   ########.fr        #
+#    Created: 2025/02/03 10:43:50 by vbui              #+#    #+#              #
+#    Updated: 2025/06/11 17:19:50 by vbui             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = zombie
-
-CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-
-SRC = main.cpp Zombie.cpp newZombie.cpp randomChump.cpp
+SRC = Megaphone.cpp
 OBJ = $(SRC:.cpp=.o)
+CC = g++
+RM = rm -f
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
+
+NAME = megaphone
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJ)
+	$(CC) $(CPPFLAGS) $(OBJ) -o $(NAME)
 
 clean:
-	rm -f $(OBJ)
+	$(RM) $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
-re: fclean all
+re: fclean $(NAME)
+
+.PHONY: all clean fclean re

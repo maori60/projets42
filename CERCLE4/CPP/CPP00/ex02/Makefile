@@ -6,7 +6,7 @@
 #    By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/04 07:55:07 by vbui              #+#    #+#              #
-#    Updated: 2025/02/04 08:21:12 by vbui             ###   ########.fr        #
+#    Updated: 2025/06/11 17:39:13 by vbui             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ UP			=	\033[A
 CUT			=	\033[K
 
 #source files
-SRC_FILES	=	tests.cpp Account.cpp
+SRC_FILES	=	Tests.cpp Account.cpp
 
 OBJ_FILES	=	$(SRC_FILES:.cpp=.o)
 

@@ -1,0 +1,1 @@
+// Déclarations des fonctions utilitaires

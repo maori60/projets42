@@ -5,30 +5,28 @@
 #                                                     +:+ +:+         +:+      #
 #    By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/02/03 10:43:50 by vbui              #+#    #+#              #
-#    Updated: 2025/02/03 10:44:22 by vbui             ###   ########.fr        #
+#    Created: 2025/06/16 21:34:55 by vbui              #+#    #+#              #
+#    Updated: 2025/06/16 21:35:01 by vbui             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = megaphone.cpp
-OBJ = $(SRC:.cpp=.o)
-CC = g++
-RM = rm -f
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
+NAME = zombie
 
-NAME = megaphone
+CXX = c++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+
+SRC = main.cpp Zombie.cpp newZombie.cpp randomChump.cpp
+OBJ = $(SRC:.cpp=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CPPFLAGS) $(OBJ) -o $(NAME)
+	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJ)
 
 clean:
-	$(RM) $(OBJ)
+	rm -f $(OBJ)
 
 fclean: clean
-	$(RM) $(NAME)
+	rm -f $(NAME)
 
-re: fclean $(NAME)
-
-.PHONY: all clean fclean re
+re: fclean all
