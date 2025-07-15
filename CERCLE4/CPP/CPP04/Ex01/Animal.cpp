@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vbui <vbui@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 01:39:29 by vbui              #+#    #+#             */
-/*   Updated: 2025/07/16 01:42:26 by vbui             ###   ########.fr       */
+/*   Created: 2025/07/16 01:28:21 by vbui              #+#    #+#             */
+/*   Updated: 2025/07/16 01:28:23 by vbui             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ Animal& Animal::operator=(const Animal& other) {
 
 Animal::~Animal() {
     std::cout << "Animal destructor called" << std::endl;
+}
+
+void Animal::makeSound() const {
+    std::cout << "*generic animal sound*" << std::endl;
 }
 
 std::string Animal::getType() const {
