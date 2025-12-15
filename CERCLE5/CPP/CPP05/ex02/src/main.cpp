@@ -3,163 +3,160 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: van <van@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: van <van@student.42.fr>                    +#+  +:+ +:+         +:+     */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 10:30:36 by tblaase           #+#    #+#             */
-/*   Updated: 2025/12/03 12:49:13 by van              ###   ########.fr       */
+/*   Updated: 2025/12/13 00:30:00 by van              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <iostream>
 #include "Bureaucrat.hpp"
 #include "AForm.hpp"
 #include "PresidentialPardonForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "ShrubberyCreationForm.hpp"
 
-int main(void)
+static void	printHeader(const std::string &title)
 {
-	// Test 1 : bureaucrate trop low pour signer
-	std::cout << "================== TEST 1 ==================" << std::endl;
+	std::cout << "\n============================================================\n";
+	std::cout << title << std::endl;
+	std::cout << "============================================================\n";
+}
+
+static void	printRule(const std::string &rule, const std::string &expected)
+{
+	std::cout << "RULE     : " << rule << std::endl;
+	std::cout << "EXPECTED : " << expected << std::endl;
+	std::cout << "------------------------------------------------------------\n";
+}
+
+static void	printState(const Bureaucrat &b, const AForm &f)
+{
+	std::cout << "STATE -> " << b << std::endl;
+	std::cout << "STATE -> " << f << std::endl;
+}
+
+static void	printStep(int n, const std::string &label)
+{
+	std::cout << "\n[" << n << "] " << label << std::endl;
+}
+
+int	main(void)
+{
+	/*
+	** TEST 1
+	** RULE: A bureaucrat with too low authority cannot sign the form.
+	*/
+	printHeader("TEST 1 - SIGNATURE REFUSED (grade too low)");
+	printRule("Bureaucrat grade must be <= form sign grade",
+			  "signForm fails and prints an explicit error");
 	{
-		Bureaucrat *a = new Bureaucrat(); // grade 150
-		AForm *b = new PresidentialPardonForm("default");
+		Bureaucrat				low("Default", 150);
+		PresidentialPardonForm	pardon("target_1");
 
-		std::cout << a;
-		std::cout << b;
+		printState(low, pardon);
 
-		try
-		{
-			b->beSigned(*a);
-		}
-		catch (std::exception &e)
-		{
-			std::cerr << a->getName() << " was not able to sign " << b->getName()
-				<< ": " << e.what() << std::endl;
-		}
+		printStep(1, "Try to sign PresidentialPardonForm with grade 150");
+		low.signForm(pardon);
 
-		std::cout << b;
-
-		delete a;
-		delete b;
+		std::cout << "\nFINAL STATE\n";
+		std::cout << "STATE -> " << pardon << std::endl;
 	}
 
-	// Test 2 : exécution avant signature, puis signature/exec avec bons grades
-	std::cout << "\n================== TEST 2 ==================" << std::endl;
+	/*
+	** TEST 2
+	** RULES:
+	** 1) A form cannot be executed if it is not signed.
+	** 2) Signing requires a high enough grade.
+	** 3) Execution requires a high enough grade.
+	*/
+	printHeader("TEST 2 - EXECUTION & SIGNATURE RULES (not signed / grade checks)");
+	printRule("execute requires: form signed + executor grade <= exec grade",
+			  "executeForm fails if not signed OR grade too low; succeeds otherwise");
 	{
-		Bureaucrat *assistant = new Bureaucrat("Assistant", 145);
-		Bureaucrat *ceo = new Bureaucrat("CEO", 1);
-		AForm *form = new PresidentialPardonForm("some dude");
+		Bureaucrat				assistant("Assistant", 145);
+		Bureaucrat				ceo("CEO", 1);
+		PresidentialPardonForm	pardon("target_2");
 
-		std::cout << assistant;
-		std::cout << ceo;
-		std::cout << form;
+		printState(assistant, pardon);
+		printState(ceo, pardon);
 
-		// Try to execute before signing
-		try
-		{
-			form->execute(*ceo);
-		}
-		catch (std::exception &e)
-		{
-			std::cerr << assistant->getName() << " was not able to execute the Form "
-				<< form->getName() << ": " << e.what() << std::endl;
-		}
+		printStep(1, "Try execute BEFORE signing (should fail: not signed)");
+		ceo.executeForm(pardon);
 
-		// Assistant essaye de signer (trop low)
-		try
-		{
-			form->beSigned(*assistant);
-		}
-		catch (std::exception &e)
-		{
-			std::cerr << assistant->getName() << " was not able to sign the Form "
-				<< form->getName() << ": " << e.what() << std::endl;
-		}
+		printStep(2, "Assistant tries to SIGN (should fail: grade too low for sign)");
+		assistant.signForm(pardon);
 
-		// CEO signe
-		std::cout << std::endl << form << std::endl;
-		try
-		{
-			form->beSigned(*ceo);
-		}
-		catch (std::exception &e)
-		{
-			std::cerr << ceo->getName() << " was not able to sign the Form "
-				<< form->getName() << ": " << e.what() << std::endl;
-		}
-		std::cout << form << std::endl;
+		printStep(3, "CEO SIGNS (should succeed)");
+		ceo.signForm(pardon);
+		std::cout << "STATE -> " << pardon << std::endl;
 
-		// execute depuis assistant (trop low)
-		try
-		{
-			form->execute(*assistant);
-		}
-		catch (std::exception &e)
-		{
-			std::cerr << assistant->getName() << " was not able to execute the Form "
-				<< form->getName() << ": " << e.what() << std::endl;
-		}
+		printStep(4, "Assistant tries to EXECUTE (should fail: grade too low for exec)");
+		assistant.executeForm(pardon);
 
-		// execute depuis CEO
-		try
-		{
-			form->execute(*ceo);
-		}
-		catch (std::exception &e)
-		{
-			std::cerr << ceo->getName() << " was not able to execute the Form "
-				<< form->getName() << ": " << e.what() << std::endl;
-		}
+		printStep(5, "CEO EXECUTES (should succeed: action + executed message)");
+		ceo.executeForm(pardon);
 
-		delete assistant;
-		delete ceo;
-		delete form;
+		std::cout << "\nFINAL STATE\n";
+		std::cout << "STATE -> " << pardon << std::endl;
 	}
 
-	// Test 3 : PresidentialPardon + executeForm du Bureaucrat
-	std::cout << "\n================== TEST 3 ==================" << std::endl;
+	/*
+	** TEST 3
+	** RULE: Copy should behave like the original object (canonical behavior).
+	*/
+	printHeader("TEST 3 - COPY CONSTRUCTOR (canonical behavior)");
+	printRule("Copy of a form remains usable and independent",
+			  "both original and copy can be signed and executed");
 	{
-		Bureaucrat *emperor = new Bureaucrat("Emperor", 1);
-		PresidentialPardonForm *b = new PresidentialPardonForm("this other dude");
-		PresidentialPardonForm *c = new PresidentialPardonForm(*b);
+		Bureaucrat				emperor("Emperor", 1);
+		PresidentialPardonForm	original("target_3");
+		PresidentialPardonForm	copy(original);
 
-		std::cout << emperor;
-		std::cout << b;
-		std::cout << c;
+		printState(emperor, original);
+		printState(emperor, copy);
 
-		emperor->signForm(*b);
-		emperor->signForm(*c);
+		printStep(1, "Sign BOTH forms");
+		emperor.signForm(original);
+		emperor.signForm(copy);
 
-		emperor->executeForm(*b);
-		emperor->executeForm(*c);
-
-		delete emperor;
-		delete b;
-		delete c;
+		printStep(2, "Execute BOTH forms");
+		emperor.executeForm(original);
+		emperor.executeForm(copy);
 	}
 
-	// Test 4 : Robotomy + Shrubbery
-	std::cout << "\n================== TEST 4 ==================" << std::endl;
+	/*
+	** TEST 4
+	** RULES:
+	** - Polymorphism: execute should call the right concrete action.
+	** - Robotomy: 50% success / 50% failure (approx).
+	** - Shrubbery: creates <target>_shrubbery file.
+	*/
+	printHeader("TEST 4 - POLYMORPHISM (Robotomy + Shrubbery)");
+	printRule("executeForm triggers concrete action after checks",
+			  "Robotomy prints drilling + success/fail; Shrubbery creates a file");
 	{
-		Bureaucrat *emperor = new Bureaucrat("Emperor", 1);
-		RobotomyRequestForm *robot = new RobotomyRequestForm("Bender");
-		ShrubberyCreationForm *tree = new ShrubberyCreationForm("christmas");
+		Bureaucrat				emperor("Emperor", 1);
+		RobotomyRequestForm		robot("Bender");
+		ShrubberyCreationForm	tree("christmas");
 
-		std::cout << emperor;
-		std::cout << robot;
-		std::cout << tree;
+		printState(emperor, robot);
+		printState(emperor, tree);
 
-		emperor->signForm(*robot);
-		emperor->signForm(*tree);
+		printStep(1, "Sign BOTH forms");
+		emperor.signForm(robot);
+		emperor.signForm(tree);
 
-		for (int i = 0; i < 10; i++)
-			emperor->executeForm(*robot);
+		printStep(2, "Execute Robotomy 10 times (observe random success/failure)");
+		for (int i = 1; i <= 10; i++)
+		{
+			std::cout << "\n--- Robotomy attempt " << i << " ---" << std::endl;
+			emperor.executeForm(robot);
+		}
 
-		emperor->executeForm(*tree);
-
-		delete emperor;
-		delete robot;
-		delete tree;
+		printStep(3, "Execute Shrubbery (should create 'christmas_shrubbery')");
+		emperor.executeForm(tree);
 	}
 
 	return (0);

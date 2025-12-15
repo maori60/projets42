@@ -1,27 +1,9 @@
 #include "Intern.hpp"
 
-// Orthodox Canonical Form
-
-Intern::Intern()
-{
-}
-
-Intern::Intern(Intern const &other)
-{
-	(void)other;
-}
-
-Intern::~Intern()
-{
-}
-
-Intern &Intern::operator=(Intern const &other)
-{
-	(void)other;
-	return (*this);
-}
-
-// Static helpers
+Intern::Intern() {}
+Intern::Intern(Intern const &other) { (void)other; }
+Intern::~Intern() {}
+Intern	&Intern::operator=(Intern const &other) { (void)other; return (*this); }
 
 AForm	*Intern::createShrubbery(std::string const &target)
 {
@@ -37,8 +19,6 @@ AForm	*Intern::createPresidential(std::string const &target)
 {
 	return (PresidentialPardonForm::create(target));
 }
-
-// makeForm
 
 AForm	*Intern::makeForm(std::string const &formName, std::string const &target)
 {
@@ -57,12 +37,7 @@ AForm	*Intern::makeForm(std::string const &formName, std::string const &target)
 	for (int i = 0; i < 3; i++)
 	{
 		if (formName == names[i])
-		{
-			std::cout << "Intern creates " << formName << std::endl;
 			return (creators[i](target));
-		}
 	}
-	std::cout << "Intern cannot create form \"" << formName
-			  << "\": unknown form name" << std::endl;
 	return (0);
 }

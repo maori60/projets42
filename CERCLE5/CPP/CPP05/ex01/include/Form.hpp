@@ -6,7 +6,7 @@
 /*   By: van <van@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 00:00:00 by van               #+#    #+#             */
-/*   Updated: 2025/12/03 12:20:44 by van              ###   ########.fr       */
+/*   Updated: 2025/12/12 23:48:38 by van              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <iostream>
 # include <string>
+# include <exception>
+
 
 class Bureaucrat;
 

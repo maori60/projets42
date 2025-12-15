@@ -1,10 +1,7 @@
 #include "PresidentialPardonForm.hpp"
-#include "Bureaucrat.hpp"
 #include <iostream>
 
-// Constructors / Destructor
-
-PresidentialPardonForm::PresidentialPardonForm()
+PresidentialPardonForm::PresidentialPardonForm(void)
 	: AForm("PresidentialPardonForm", 25, 5), _target("default")
 {
 }
@@ -19,12 +16,11 @@ PresidentialPardonForm::PresidentialPardonForm(PresidentialPardonForm const &oth
 {
 }
 
-PresidentialPardonForm::~PresidentialPardonForm()
+PresidentialPardonForm::~PresidentialPardonForm(void)
 {
 }
 
-PresidentialPardonForm &
-PresidentialPardonForm::operator=(PresidentialPardonForm const &other)
+PresidentialPardonForm	&PresidentialPardonForm::operator=(PresidentialPardonForm const &other)
 {
 	if (this != &other)
 	{
@@ -34,17 +30,13 @@ PresidentialPardonForm::operator=(PresidentialPardonForm const &other)
 	return (*this);
 }
 
-// execute
-
 void	PresidentialPardonForm::execute(Bureaucrat const &executor) const
 {
 	checkExecutable(executor);
-	std::cout << _target << " has been pardoned by Zafod Beeblebrox." << std::endl;
+	std::cout << _target << " has been pardoned by Zaphod Beeblebrox" << std::endl;
 }
 
-// Helper for Intern
-
-AForm	*PresidentialPardonForm::create(std::string const &target)
+AForm	*PresidentialPardonForm::create(const std::string &target)
 {
 	return (new PresidentialPardonForm(target));
 }

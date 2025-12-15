@@ -1,4 +1,3 @@
-// ex01/Data.hpp
 #ifndef DATA_HPP
 #define DATA_HPP
 

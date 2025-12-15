@@ -1,35 +1,44 @@
-// ex01/main.cpp
-#include "Serializer.hpp"
+#include "Functions.hpp"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+static void sep() { std::cout << "------------------------------------------------------------\n"; }
 
 int main()
 {
-    Data data;
+    sep();
+    std::cout << "CPP06 - ex02: Identify real type (dynamic_cast)\n";
+    sep();
+    std::cout
+        << "How it works:\n"
+        << "  - generate() returns Base* but real object is A/B/C\n"
+        << "  - identify(Base*): dynamic_cast<Derived*>(p) -> NULL if failed\n"
+        << "  - identify(Base&): dynamic_cast<Derived&>(p) -> throws if failed\n"
+        << "Note:\n"
+        << "  - Same address can appear multiple times because the allocator may reuse memory after delete.\n";
+    sep();
 
-    data.id = 42;
-    data.name = "Hello serialization";
-    data.value = 3.14159;
+    std::srand(static_cast<unsigned int>(std::time(0)));
 
-    Data *ptr = &data;
+    for (int i = 0; i < 5; ++i)
+    {
+        Base *p = generate();
 
-    std::cout << "Original pointer : " << ptr << std::endl;
-    std::cout << "Data content     : id=" << data.id
-              << ", name=" << data.name
-              << ", value=" << data.value << std::endl;
+        std::cout << "#" << i
+                  << " | addr=" << p
+                  << " | identify(ptr)=";
+        identify(p);
 
-    uintptr_t raw = Serializer::serialize(ptr);
-    std::cout << "Serialized value : " << raw << std::endl;
+        std::cout << "    "
+                  << "identify(ref)=";
+        identify(*p);
 
-    Data *restored = Serializer::deserialize(raw);
-    std::cout << "Restored pointer : " << restored << std::endl;
-    std::cout << "Restored content : id=" << restored->id
-              << ", name=" << restored->name
-              << ", value=" << restored->value << std::endl;
+        sep();
+        delete p;
+    }
 
-    if (restored == ptr)
-        std::cout << "Pointers are equal: serialization/deserialization OK." << std::endl;
-    else
-        std::cout << "Pointers differ: something went wrong." << std::endl;
-
+    std::cout << "Conclusion: dynamic_cast finds the real runtime type safely.\n";
+    sep();
     return 0;
 }

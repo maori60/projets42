@@ -1,9 +1,8 @@
-// ex01/Serializer.hpp
 #ifndef SERIALIZER_HPP
 #define SERIALIZER_HPP
 
 #include "Data.hpp"
-#include <stdint.h> // uintptr_t
+#include <stdint.h> // uintptr_t (C++98)
 
 class Serializer
 {
@@ -15,7 +14,7 @@ private:
 
 public:
     static uintptr_t serialize(Data *ptr);
-    static Data *deserialize(uintptr_t raw);
+    static Data     *deserialize(uintptr_t raw);
 };
 
 #endif

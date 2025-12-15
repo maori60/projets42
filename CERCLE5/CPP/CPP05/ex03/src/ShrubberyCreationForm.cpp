@@ -1,10 +1,8 @@
 #include "ShrubberyCreationForm.hpp"
-#include "Bureaucrat.hpp"
+#include <fstream>
 #include <stdexcept>
 
-// Constructors / Destructor
-
-ShrubberyCreationForm::ShrubberyCreationForm()
+ShrubberyCreationForm::ShrubberyCreationForm(void)
 	: AForm("ShrubberyCreationForm", 145, 137), _target("default")
 {
 }
@@ -19,12 +17,11 @@ ShrubberyCreationForm::ShrubberyCreationForm(ShrubberyCreationForm const &other)
 {
 }
 
-ShrubberyCreationForm::~ShrubberyCreationForm()
+ShrubberyCreationForm::~ShrubberyCreationForm(void)
 {
 }
 
-ShrubberyCreationForm &
-ShrubberyCreationForm::operator=(ShrubberyCreationForm const &other)
+ShrubberyCreationForm	&ShrubberyCreationForm::operator=(ShrubberyCreationForm const &other)
 {
 	if (this != &other)
 	{
@@ -34,30 +31,26 @@ ShrubberyCreationForm::operator=(ShrubberyCreationForm const &other)
 	return (*this);
 }
 
-// execute
-
 void	ShrubberyCreationForm::execute(Bureaucrat const &executor) const
 {
 	checkExecutable(executor);
 
-	std::ofstream ofs((_target + "_shrubbery").c_str());
-	if (!ofs)
-		throw std::runtime_error("Failed to open shrubbery file");
+	std::ofstream	out((_target + "_shrubbery").c_str());
+	if (!out)
+		throw std::runtime_error("could not create shrubbery file");
 
-	ofs << "      /\\      \n";
-	ofs << "     /\\*\\     \n";
-	ofs << "    /\\O\\*\\    \n";
-	ofs << "   /*/\\/\\/\\   \n";
-	ofs << "  /\\O\\/\\*\\/\\  \n";
-	ofs << " /\\*\\/\\*\\/\\/\\ \n";
-	ofs << "/\\O\\/\\/*/\\/O/\\\n";
-	ofs << "      ||      \n";
-	ofs << "      ||      \n";
+	out << "      /\\      \n";
+	out << "     /\\*\\     \n";
+	out << "    /\\O\\*\\    \n";
+	out << "   /*/\\/\\/\\   \n";
+	out << "  /\\O\\/\\*\\/\\  \n";
+	out << " /\\*\\/\\*\\/\\/\\ \n";
+	out << "/\\O\\/\\/*/\\/O/\\\n";
+	out << "      ||      \n";
+	out << "      ||      \n";
 }
 
-// Helper for Intern
-
-AForm	*ShrubberyCreationForm::create(std::string const &target)
+AForm	*ShrubberyCreationForm::create(const std::string &target)
 {
 	return (new ShrubberyCreationForm(target));
 }

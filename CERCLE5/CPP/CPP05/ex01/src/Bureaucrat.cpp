@@ -6,7 +6,7 @@
 /*   By: van <van@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 00:00:00 by van               #+#    #+#             */
-/*   Updated: 2025/12/03 12:20:58 by van              ###   ########.fr       */
+/*   Updated: 2025/12/13 00:11:05 by van              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 **  Canonical form
 */
 
-Bureaucrat::Bureaucrat(void) : _name("default"), _grade(150)
+Bureaucrat::Bureaucrat(void) : _name("Default"), _grade(150)
 {
 }
 

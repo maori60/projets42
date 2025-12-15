@@ -1,11 +1,9 @@
 #include "RobotomyRequestForm.hpp"
-#include "Bureaucrat.hpp"
 #include <iostream>
+#include <cstdlib>
 #include <ctime>
 
-// Constructors / Destructor
-
-RobotomyRequestForm::RobotomyRequestForm()
+RobotomyRequestForm::RobotomyRequestForm(void)
 	: AForm("RobotomyRequestForm", 72, 45), _target("default")
 {
 }
@@ -20,12 +18,11 @@ RobotomyRequestForm::RobotomyRequestForm(RobotomyRequestForm const &other)
 {
 }
 
-RobotomyRequestForm::~RobotomyRequestForm()
+RobotomyRequestForm::~RobotomyRequestForm(void)
 {
 }
 
-RobotomyRequestForm &
-RobotomyRequestForm::operator=(RobotomyRequestForm const &other)
+RobotomyRequestForm	&RobotomyRequestForm::operator=(RobotomyRequestForm const &other)
 {
 	if (this != &other)
 	{
@@ -35,24 +32,26 @@ RobotomyRequestForm::operator=(RobotomyRequestForm const &other)
 	return (*this);
 }
 
-// execute
-
 void	RobotomyRequestForm::execute(Bureaucrat const &executor) const
 {
+	static bool	seeded = false;
+
 	checkExecutable(executor);
 
-	std::cout << "* Drilling noises *" << std::endl;
+	if (!seeded)
+	{
+		std::srand(static_cast<unsigned int>(std::time(NULL)));
+		seeded = true;
+	}
 
-	std::srand(static_cast<unsigned int>(std::time(NULL)));
+	std::cout << "BRRRRRRRRRRRRRR DRILLING NOISES..." << std::endl;
 	if (std::rand() % 2)
-		std::cout << _target << " has been robotomized successfully!" << std::endl;
+		std::cout << _target << " has been robotomized successfully" << std::endl;
 	else
-		std::cout << "The robotomy on " << _target << " has failed..." << std::endl;
+		std::cout << "Robotomy on " << _target << " failed" << std::endl;
 }
 
-// Helper for Intern
-
-AForm	*RobotomyRequestForm::create(std::string const &target)
+AForm	*RobotomyRequestForm::create(const std::string &target)
 {
 	return (new RobotomyRequestForm(target));
 }

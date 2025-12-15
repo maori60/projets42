@@ -1,65 +1,65 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: van <van@student.42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/29 15:45:52 by cgodecke          #+#    #+#             */
-/*   Updated: 2025/12/10 18:42:37 by van              ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
+#include <iostream>
 #include "MutantStack.hpp"
+
+static void printSection(const std::string &title)
+{
+    std::cout << "\n========================================\n";
+    std::cout << title << "\n";
+    std::cout << "========================================\n";
+}
+
+template <typename T>
+static void printStackForward(MutantStack<T> &m)
+{
+    std::cout << "Forward iteration: ";
+    typename MutantStack<T>::iterator it = m.begin();
+    typename MutantStack<T>::iterator ite = m.end();
+    for (; it != ite; ++it)
+        std::cout << *it << " ";
+    std::cout << "\n";
+}
+
+template <typename T>
+static void printStackReverse(MutantStack<T> &m)
+{
+    std::cout << "Reverse iteration: ";
+    typename MutantStack<T>::reverse_iterator it = m.rbegin();
+    typename MutantStack<T>::reverse_iterator ite = m.rend();
+    for (; it != ite; ++it)
+        std::cout << *it << " ";
+    std::cout << "\n";
+}
 
 int main()
 {
-	std::cout << "\033[33m" << "Subject test\n"<< "\033[0m";
+    printSection("EX02 - MutantStack");
 
-	MutantStack<int> mstack;
+    MutantStack<int> mstack;
 
-	mstack.push(5);
-	mstack.push(17);
+    printSection("Push elements (std::stack behavior)");
+    mstack.push(5);
+    mstack.push(3);
+    mstack.push(5);
+    mstack.push(737);
+    mstack.push(0);
 
-	std::cout << "top: " << mstack.top() << std::endl;
+    std::cout << "Top element   : " << mstack.top() << "\n";
+    std::cout << "Stack size   : " << mstack.size() << "\n";
 
-	mstack.pop();
+    printSection("Iterator test (begin / end)");
+    printStackForward(mstack);
 
-	std::cout << "size: " << mstack.size() << std::endl;
+    printSection("Reverse iterator test (rbegin / rend)");
+    printStackReverse(mstack);
 
-	mstack.push(3);
-	mstack.push(5);
-	mstack.push(737);
-	mstack.push(0);
+    printSection("Pop test");
+    mstack.pop();
+    std::cout << "After pop(), new top: " << mstack.top() << "\n";
+    std::cout << "New size            : " << mstack.size() << "\n";
 
-	MutantStack<int>::iterator it = mstack.begin();
-	MutantStack<int>::iterator ite = mstack.end();
-	
-	++it;
-	--it;
-	std::cout << "stack: ";
-	while (it != ite)
-	{
-		std::cout << *it << " ";
-		++it;
-	}
-	std::cout << std::endl;
-	std::stack<int> s(mstack);
+    printSection("Iterators after pop()");
+    printStackForward(mstack);
 
-
-
-	std::cout << "\033[33m" << "Test with rbegin and rend\n"<< "\033[0m";
-
-	MutantStack<int>::reverse_iterator rit = mstack.rbegin();
-	MutantStack<int>::reverse_iterator rite = mstack.rend();
-
-	std::cout << "stack: ";
-	while (rit != rite)
-	{
-		std::cout << *rit << " ";
-		++rit;
-	}
-	std::cout << std::endl;
-	
-	return 0;
+    std::cout << "\n[MutantStack] Done.\n";
+    return 0;
 }

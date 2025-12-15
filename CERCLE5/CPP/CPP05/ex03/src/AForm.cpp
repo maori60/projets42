@@ -1,114 +1,125 @@
 #include "AForm.hpp"
 #include "Bureaucrat.hpp"
+#include <iostream>
 
-// Constructors / Destructor
+/* =========================
+   Canonical form
+   ========================= */
 
-AForm::AForm()
-	: _name("DefaultForm"), _isSigned(false), _signGrade(150), _execGrade(150)
+AForm::AForm(void)
+	: _name("AForm"), _isSigned(false), _signGrade(150), _execGrade(150)
 {
 }
 
 AForm::AForm(const std::string &name, int signGrade, int execGrade)
 	: _name(name), _isSigned(false), _signGrade(signGrade), _execGrade(execGrade)
 {
-	checkGrade(signGrade);
-	checkGrade(execGrade);
+	if (_signGrade < 1 || _execGrade < 1)
+		throw (AForm::GradeTooHighException());
+	if (_signGrade > 150 || _execGrade > 150)
+		throw (AForm::GradeTooLowException());
 }
 
 AForm::AForm(AForm const &other)
-	: _name(other._name),
-	  _isSigned(other._isSigned),
-	  _signGrade(other._signGrade),
-	  _execGrade(other._execGrade)
+	: _name(other._name), _isSigned(other._isSigned),
+	  _signGrade(other._signGrade), _execGrade(other._execGrade)
 {
 }
 
-AForm::~AForm()
+AForm::~AForm(void)
 {
 }
 
-AForm &AForm::operator=(AForm const &other)
+AForm	&AForm::operator=(AForm const &other)
 {
 	if (this != &other)
-	{
 		_isSigned = other._isSigned;
-	}
 	return (*this);
 }
 
-// Private
+/* =========================
+   Core behavior
+   ========================= */
 
-void	AForm::checkGrade(int grade) const
+void	AForm::beSigned(Bureaucrat const &signer)
 {
-	if (grade < 1)
-		throw GradeTooHighException();
-	if (grade > 150)
-		throw GradeTooLowException();
-}
-
-// Getters
-
-const std::string	&AForm::getName() const
-{
-	return (_name);
-}
-
-bool	AForm::getIsSigned() const
-{
-	return (_isSigned);
-}
-
-int	AForm::getSignGrade() const
-{
-	return (_signGrade);
-}
-
-int	AForm::getExecGrade() const
-{
-	return (_execGrade);
-}
-
-// Core methods
-
-void	AForm::beSigned(Bureaucrat const &bureaucrat)
-{
-	if (bureaucrat.getGrade() > _signGrade)
-		throw GradeTooLowException();
+	if (signer.getGrade() > _signGrade)
+		throw (AForm::GradeTooLowException());
 	_isSigned = true;
 }
 
 void	AForm::checkExecutable(Bureaucrat const &executor) const
 {
 	if (!_isSigned)
-		throw FormNotSignedException();
+		throw (AForm::FormNotSignedException());
 	if (executor.getGrade() > _execGrade)
-		throw GradeTooLowException();
+		throw (AForm::GradeTooLowException());
 }
 
-// Exceptions
-
-const char *AForm::GradeTooHighException::what() const throw()
+/*
+** NOTE:
+** Ton header n’a pas executeAction().
+** Donc execute() ici fait UNIQUEMENT les checks.
+** Les classes dérivées (Shrubbery/Robotomy/Presidential) doivent ensuite
+** override execute() et appeler checkExecutable() puis faire leur action.
+*/
+void	AForm::execute(Bureaucrat const &executor) const
 {
-	return ("Form grade is too high");
+	checkExecutable(executor);
 }
 
-const char *AForm::GradeTooLowException::what() const throw()
+/* =========================
+   Getters
+   ========================= */
+
+const std::string	&AForm::getName(void) const
 {
-	return ("Form grade is too low");
+	return (_name);
 }
 
-const char *AForm::FormNotSignedException::what() const throw()
+bool	AForm::getIsSigned(void) const
 {
-	return ("Form is not signed");
+	return (_isSigned);
 }
 
-// Operator <<
-
-std::ostream &operator<<(std::ostream &os, AForm const &f)
+int	AForm::getSignGrade(void) const
 {
-	os << "Form \"" << f.getName() << "\""
-	   << " [sign grade " << f.getSignGrade()
-	   << ", exec grade " << f.getExecGrade()
-	   << ", signed: " << (f.getIsSigned() ? "yes" : "no") << "]";
-	return (os);
+	return (_signGrade);
+}
+
+int	AForm::getExecGrade(void) const
+{
+	return (_execGrade);
+}
+
+/* =========================
+   Exceptions
+   ========================= */
+
+const char	*AForm::GradeTooLowException::what(void) const throw()
+{
+	return ("AForm grade too low");
+}
+
+const char	*AForm::GradeTooHighException::what(void) const throw()
+{
+	return ("AForm grade too high");
+}
+
+const char	*AForm::FormNotSignedException::what(void) const throw()
+{
+	return ("AForm not signed");
+}
+
+/* =========================
+   ostream overload
+   ========================= */
+
+std::ostream	&operator<<(std::ostream &o, AForm const &f)
+{
+	o << f.getName()
+	  << " (sign grade " << f.getSignGrade()
+	  << ", exec grade " << f.getExecGrade()
+	  << ", signed: " << (f.getIsSigned() ? "yes" : "no") << ")";
+	return (o);
 }
