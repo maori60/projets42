@@ -5,9 +5,8 @@
 
 struct Data
 {
-    int         id;
+    int id;
     std::string name;
-    double      value;
 };
 
 #endif
